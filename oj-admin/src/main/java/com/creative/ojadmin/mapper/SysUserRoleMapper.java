@@ -1,7 +1,10 @@
 package com.creative.ojadmin.mapper;
 
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.creative.ojadmin.domain.SysUserRoleDO;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+
+import java.util.List;
 
 /**
 * @author Barbuda

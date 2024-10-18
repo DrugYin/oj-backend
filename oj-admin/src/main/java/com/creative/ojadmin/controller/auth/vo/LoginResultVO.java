@@ -14,6 +14,10 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class LoginResultVO {
 
-    private String accessToken;
+    private String account;
+
+    private String token;
+
+    private String avatar;
 
 }

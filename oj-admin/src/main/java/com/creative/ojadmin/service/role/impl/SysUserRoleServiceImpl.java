@@ -12,6 +12,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
 * @author Barbuda
@@ -30,7 +31,7 @@ public class SysUserRoleServiceImpl extends ServiceImpl<SysUserRoleMapper, SysUs
         return baseMapper.selectList(new LambdaQueryWrapper<SysUserRoleDO>()
                 .eq(SysUserRoleDO::getUserId, param.getUserId())
                 .select(SysUserRoleDO::getRoleId)
-        ).stream().map(SysUserRoleDO::getRoleId).toList();
+        ).stream().map(SysUserRoleDO::getRoleId).collect(Collectors.toList());
     }
 }
 

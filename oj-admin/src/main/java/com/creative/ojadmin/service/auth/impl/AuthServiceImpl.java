@@ -33,7 +33,7 @@ public class AuthServiceImpl implements IAuthService {
      */
     @Override
     public LoginResultVO passwordLogin(PasswordLoginParam param) {
-        SysUserDO dbUser = sysUserService.getUserByUserName(param.getUsername());
+        SysUserDO dbUser = sysUserService.getUserByUserName(param.getAccount());
         if (dbUser == null) {
             // 用户不存在
             throw new ServiceException(GlobalErrorCodeEnum.LOGIN_USER_NOT_EXIST);
@@ -44,9 +44,18 @@ public class AuthServiceImpl implements IAuthService {
             // 密码错误
             throw new ServiceException(GlobalErrorCodeEnum.LOGIN_PASSWORD_WRONG);
         }
-        // 执行登录
         StpUtil.login(dbUser.getId());
+//        StpUtil.getRoleList();
+        if (!StpUtil.hasRole("admin")) {
+            StpUtil.logout(dbUser.getId());
+            throw new ServiceException(GlobalErrorCodeEnum.LOGIN_USER_NOT_AUTHORIZED);
+        }
+        // 执行登录
+        LoginResultVO loginResultVO = new LoginResultVO();
+        loginResultVO.setToken(StpUtil.getTokenValue());
+        loginResultVO.setAccount(dbUser.getUsername());
+        loginResultVO.setAvatar("proxy/"+dbUser.getAvatar());
         // 返回登录信息
-        return new LoginResultVO(StpUtil.getTokenInfo().getTokenValue());
+        return loginResultVO;
     }
 }

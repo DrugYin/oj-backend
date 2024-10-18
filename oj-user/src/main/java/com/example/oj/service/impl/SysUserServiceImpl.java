@@ -121,7 +121,7 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser>
         LoginUserVO loginUserVO = new LoginUserVO();
         loginUserVO.setUserID(dbUser.getId());
         loginUserVO.setUsername(dbUser.getUsername());
-        loginUserVO.setAvatar(dbUser.getAvatar());
+        loginUserVO.setAvatar("api/"+dbUser.getAvatar());
         loginUserVO.setSubmitCount(dbUser.getSubmitCount());
         loginUserVO.setAcceptCount(dbUser.getAcceptCount());
         return loginUserVO;
@@ -150,7 +150,7 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser>
         List<RankVO> collect = page.getRecords().stream().map(item -> {
             RankVO rankVO = new RankVO();
             rankVO.setAcceptCount(item.getAcceptCount());
-            rankVO.setAvatar(item.getAvatar());
+            rankVO.setAvatar("api/" + item.getAvatar());
             rankVO.setSignature(sysUserInfoServiceImpl.getById(item.getId()).getSignature());
             rankVO.setSubmitCount(item.getSubmitCount());
             rankVO.setUsername(sysUserInfoMapper.selectById(item.getId()).getUserName());
@@ -173,7 +173,7 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser>
         System.out.println(imgName);
         String avatarSavePath = "C:\\Users\\Barbuda\\IdeaProjects\\oj\\img\\";
         FileUtils.saveMultipartFile(file, avatarSavePath + "avatar\\" + imgName);
-        dbUser.setAvatar("api/image/avatar/" + imgName);
+        dbUser.setAvatar("image/avatar/" + imgName);
         updateById(dbUser);
     }
 

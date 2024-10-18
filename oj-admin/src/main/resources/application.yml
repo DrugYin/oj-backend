@@ -9,15 +9,6 @@ spring:
     url: jdbc:mysql://localhost:3306/x_oj
     username: root
     password: 123456
-  mvc:
-    static-path-pattern: /image/**
-    #classpath:/META-INF/resources/,
-    #classpath:/resources/,
-    #classpath:/static/,
-    #classpath:/public/
-  web:
-    resources:
-      static-locations: file:D:\Barbuda\Project\oj-backend\img
   data:
     redis:
       # Redis数据库索引（默认为0）
