@@ -24,8 +24,8 @@ public class CarouselController {
 
     private final SysCarouselService sysCarouselService;
 
-    @PostMapping("/update")
-    public ResponseResult<?> updateCarousel(@RequestBody UpdateCarouselParam param) {
+    @PostMapping(value = "/update", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public ResponseResult<?> updateCarousel(UpdateCarouselParam param) {
         sysCarouselService.updateCarousel(param);
         return ResponseResult.success("OK");
     }
