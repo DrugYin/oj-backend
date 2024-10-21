@@ -150,7 +150,7 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser>
         List<RankVO> collect = page.getRecords().stream().map(item -> {
             RankVO rankVO = new RankVO();
             rankVO.setAcceptCount(item.getAcceptCount());
-            rankVO.setAvatar("api/" + item.getAvatar());
+            rankVO.setAvatar("\\api/" + item.getAvatar());
             rankVO.setSignature(sysUserInfoServiceImpl.getById(item.getId()).getSignature());
             rankVO.setSubmitCount(item.getSubmitCount());
             rankVO.setUsername(sysUserInfoMapper.selectById(item.getId()).getUserName());
@@ -171,7 +171,7 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser>
             imgName = userId + UUID.randomUUID().toString() + FileUtils.getImageExtension(file);
         }
         System.out.println(imgName);
-        String avatarSavePath = "C:\\Users\\Barbuda\\IdeaProjects\\oj\\img\\";
+        String avatarSavePath = "D:\\Barbuda\\Project\\oj-backend\\img\\";
         FileUtils.saveMultipartFile(file, avatarSavePath + "avatar\\" + imgName);
         dbUser.setAvatar("image/avatar/" + imgName);
         updateById(dbUser);

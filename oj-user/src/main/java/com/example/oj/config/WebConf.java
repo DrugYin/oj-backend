@@ -14,8 +14,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurationSupp
 public class WebConf extends WebMvcConfigurationSupport {
     @Override
     protected void addResourceHandlers(ResourceHandlerRegistry registry) {
-        //映射static路径的请求到static目录下
         //通过image访问本地的图片
-        registry.addResourceHandler("/image/**").addResourceLocations("file:D:/Barbuda/Project/oj-backend/img/");
+        registry.addResourceHandler("/image/**").addResourceLocations("file:D:\\Barbuda\\Project\\oj-backend\\img\\");
     }
 }

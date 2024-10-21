@@ -61,7 +61,7 @@ public class SysCarouselServiceImpl extends ServiceImpl<SysCarouselMapper, SysCa
                 oldFile.delete();
             }
             carouselDO.setTitle(param.getTitle());
-            carouselDO.setImgurl("\\proxy/image/carousel/" + imgName);
+            carouselDO.setImgurl("\\api/image/carousel/" + imgName);
             carouselDO.setGmtModified(LocalDateTime.now());
             updateById(carouselDO);
         } catch (Exception e) {
@@ -86,7 +86,7 @@ public class SysCarouselServiceImpl extends ServiceImpl<SysCarouselMapper, SysCa
             file.transferTo(new File(IMAGE_PATH + "\\" + imgName));
             SysCarouselDO carouselDO = new SysCarouselDO();
             carouselDO.setTitle(param.getTitle());
-            carouselDO.setImgurl("\\proxy/image/carousel/" + imgName);
+            carouselDO.setImgurl("\\api/image/carousel/" + imgName);
             carouselDO.setGmtCreate(LocalDateTime.now());
             save(carouselDO);
         } catch (Exception e) {
