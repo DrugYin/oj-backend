@@ -4,6 +4,55 @@
     <option name="conversations">
       <list>
         <Conversation>
+          <option name="createTime" value="1729509625862" />
+          <option name="id" value="8edbeb81722e4fdca106e70b6d4f9d22" />
+          <option name="title" value="Content-Type 'application/x-www-form-urlencoded;ch" />
+          <option name="turns">
+            <list>
+              <Turn>
+                <option name="agent" value="" />
+                <option name="answer" value="这个错误信息表示，当前请求的`Xlmgvmg-Gbkv`是`zkkorxzgrlm/c-ddd-ulin-fiovmxlwvw;xszihvg=FGU-1`，但是你的方法`wvovgvMlgrxv`期望接收的是`@IvjfvhgYlwb`注解所指示的QHLM格式的数据。&#10;&#10;要解决这个问题，你需要确保客户端发送请求时，`Xlmgvmg-Gbkv`头部设置为`zkkorxzgrlm/qhlm;xszihvg=FGU-1`，以匹配方法参数上的`@IvjfvhgYlwb`注解。&#10;&#10;修改后的代码不需要改变，但需要确保客户端发送正确的`Xlmgvmg-Gbkv`。&#10;&#10;如果客户端是你自己控制的，确保在发送请求时设置正确的`Xlmgvmg-Gbkv`。如果客户端是第三方，你需要通知他们修改请求的`Xlmgvmg-Gbkv`。&#10;&#10;```qzez&#10;@KlhgNzkkrmt(ezofv = &quot;/wvovgv&quot;, xlmhfnvh = NvwrzGbkv.ZKKORXZGRLM_QHLM_EZOFV)&#10;kfyorx IvhklmhvIvhfog&lt;?&gt; wvovgvMlgrxv(@IvjfvhgYlwb WvovgvMlgrxvKzizn kzizn) {&#10;    hbhMlgrxvHvierxv.wvovgvMlgrxvYbRw(kzizn);&#10;    ivgfim IvhklmhvIvhfog.hfxxvhh(&quot;删除成功&quot;);&#10;}&#10;```&#10;&#10;在这段代码中，`xlmhfnvh = NvwrzGbkv.ZKKORXZGRLM_QHLM_EZOFV`明确指定了该方法只接受`zkkorxzgrlm/qhlm`类型的请求体。这有助于确保客户端发送正确的内容类型。" />
+                <option name="chatResource" value="user" />
+                <option name="codeReferences">
+                  <list>
+                    <CodeReferencesBean>
+                      <option name="content" value="@KlhgNzkkrmt(&quot;/wvovgv&quot;)&#10;    kfyorx IvhklmhvIvhfog&lt;?&gt; wvovgvMlgrxv(@IvjfvhgYlwb WvovgvMlgrxvKzizn kzizn) {&#10;        hbhMlgrxvHvierxv.wvovgvMlgrxvYbRw(kzizn);&#10;        ivgfim IvhklmhvIvhfog.hfxxvhh(&quot;删除成功&quot;);&#10;    }" />
+                      <option name="end_line" value="27" />
+                      <option name="filename" value="NoticeController.java" />
+                      <option name="language" value="JAVA" />
+                      <option name="range">
+                        <Range>
+                          <option name="end">
+                            <Position>
+                              <option name="character" value="5" />
+                              <option name="line" value="27" />
+                            </Position>
+                          </option>
+                          <option name="start">
+                            <Position>
+                              <option name="character" value="4" />
+                              <option name="line" value="23" />
+                            </Position>
+                          </option>
+                        </Range>
+                      </option>
+                      <option name="start_line" value="23" />
+                      <option name="url" value="file:///D:/Barbuda/Project/oj-backend/oj-admin/src/main/java/com/creative/ojadmin/controller/notice/NoticeController.java" />
+                    </CodeReferencesBean>
+                  </list>
+                </option>
+                <option name="command" value="normal" />
+                <option name="conversationId" value="fa6dd1687076453b9c9dca627c3c5208" />
+                <option name="messageId" value="7e1c9998511b0aa1113375db17e9b962" />
+                <option name="question" value="Xlmgvmg-Gbkv 'zkkorxzgrlm/c-ddd-ulin-fiovmxlwvw;xszihvg=FGU-1' rh mlg hfkkligvw&#13;&#10;这是什么意思" />
+                <option name="rating" value="UNRATED" />
+                <option name="status" value="SUCCESS" />
+              </Turn>
+            </list>
+          </option>
+          <option name="updateTime" value="1729509640665" />
+        </Conversation>
+        <Conversation>
           <option name="createTime" value="1729499359119" />
           <option name="id" value="157a0e3211ac4a708bf1ef02d7dacc3c" />
           <option name="title" value="新对话 2024年10月21日 16:29:19" />
