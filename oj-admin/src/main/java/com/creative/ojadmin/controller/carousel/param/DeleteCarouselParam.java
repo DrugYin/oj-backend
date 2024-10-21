@@ -1,11 +1,11 @@
-package com.example.oj.param.Carousel;
+package com.creative.ojadmin.controller.carousel.param;
 
 import lombok.Data;
 
 /**
  * @author LiChongWei
+ * @date 2024/10/21 13:25
  * @description
- * @createDate 2024/10/10 下午1:47
  */
 @Data
 public class DeleteCarouselParam {

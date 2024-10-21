@@ -3,8 +3,6 @@ package com.example.oj.service;
 import com.example.oj.common.model.PageResult;
 import com.example.oj.domain.SysCarousel;
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.example.oj.param.Carousel.AddCarouselParam;
-import com.example.oj.param.Carousel.DeleteCarouselParam;
 import com.example.oj.vo.carousel.CarouselVO;
 
 /**
@@ -16,8 +14,5 @@ public interface SysCarouselService extends IService<SysCarousel> {
 
     PageResult<CarouselVO> getCarousels();
 
-    void deleteCarouselById(DeleteCarouselParam param);
-
-    String addCarousel(AddCarouselParam param);
 
 }

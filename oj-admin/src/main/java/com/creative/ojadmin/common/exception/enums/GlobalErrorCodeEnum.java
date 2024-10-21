@@ -21,6 +21,8 @@ public enum GlobalErrorCodeEnum implements IErrorCode {
     LOGIN_USER_NOT_AUTHORIZED(10004L, "用户无权限"),
     LOGIN_USER_NOT_EXIST_ROLE(10005L, "用户角色不存在"),
     LOGIN_USER_NOT_EXIST_PERMISSION(10006L, "用户权限不存在"),
+    FILE_EMPTY(10007L, "文件为空"),
+    FILE_UPLOAD_FAIL(10008L, "文件上传失败"),
     ;
 
     private final Long code;

@@ -2,6 +2,9 @@ server:
   port: 8090
 
 spring:
+  servlet:
+    multipart:
+      enabled: true
   application:
     name: oj-admin
   datasource:
