@@ -6,16 +6,12 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.example.oj.common.model.PageResult;
 import com.example.oj.domain.SysNotice;
 import com.example.oj.mapper.SysNoticeMapper;
-import com.example.oj.param.notice.CreateNoticeParam;
-import com.example.oj.param.notice.DeleteNoticeParam;
 import com.example.oj.param.notice.QueryPageParam;
-import com.example.oj.param.notice.UpdateNoticeParam;
 import com.example.oj.service.SysNoticeService;
 import com.example.oj.vo.notice.NoticeVO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -28,34 +24,6 @@ import java.util.stream.Collectors;
 @Service
 public class SysNoticeServiceImpl1 extends ServiceImpl<SysNoticeMapper, SysNotice>
         implements SysNoticeService {
-
-    @Override
-    public void createNotice(CreateNoticeParam param) {
-        SysNotice sysNotice = new SysNotice();
-        sysNotice.setTitle(param.getTitle());
-        sysNotice.setContent(param.getContent());
-        sysNotice.setGmtCreate(LocalDateTime.now());
-        sysNotice.setGmtModified(LocalDateTime.now());
-        // 新增一条公告
-        save(sysNotice);
-
-
-    }
-
-    @Override
-    public void deleteNotice(DeleteNoticeParam param) {
-        removeById(param.getId());
-    }
-
-    @Override
-    public void updateNotice(UpdateNoticeParam param) {
-        SysNotice sysNotice = new SysNotice();
-        sysNotice.setId(param.getId());
-        sysNotice.setTitle(param.getTitle());
-        sysNotice.setContent(param.getContent());
-        sysNotice.setGmtModified(LocalDateTime.now());
-        updateById(sysNotice);
-    }
 
     @Override
     public PageResult<NoticeVO> pageQuery(QueryPageParam param) {
