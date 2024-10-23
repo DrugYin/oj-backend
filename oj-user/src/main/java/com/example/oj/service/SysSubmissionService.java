@@ -21,4 +21,6 @@ public interface SysSubmissionService extends IService<SysSubmission> {
     PageResult<SubmissionVO> problemSubmitPageQuery(QueryPageParam param);
 
     PageResult<SubmissionVO> userSubmitPageQuery(QueryPageParam param);
+
+    PageResult<SubmissionVO> getUserSubmitsById(QueryPageParam param);
 }

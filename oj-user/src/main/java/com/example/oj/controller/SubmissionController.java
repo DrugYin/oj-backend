@@ -66,4 +66,9 @@ public class SubmissionController {
         return Result.success(sysSubmissionService.userSubmitPageQuery(param));
     }
 
+    @GetMapping("/getSubmitsById")
+    public Result<?> getSubmitsById(QueryPageParam param) {
+        return Result.success(sysSubmissionService.getUserSubmitsById(param));
+    }
+
 }

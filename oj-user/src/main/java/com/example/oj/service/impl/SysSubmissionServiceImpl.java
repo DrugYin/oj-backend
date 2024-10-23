@@ -97,15 +97,7 @@ public class SysSubmissionServiceImpl extends ServiceImpl<SysSubmissionMapper, S
         System.out.println("userIds: " + userIds);
         System.out.println("userInfoIds: " + userInfoIds);
 
-        List<Long> problemIds = sysProblemMapper.selectList(new LambdaQueryWrapper<SysProblem>()
-                .like(SysProblem::getTitle, "%" + param.getSearchProblemValue().replace("%", "\\%").replace("_", "\\_") + "%")
-                .or()
-                .like(SysProblem::getCustomId, "%" + param.getSearchProblemValue().replace("%", "\\%").replace("_", "\\_") + "%")
-                .or()
-                .eq(SysProblem::getId, param.getSearchProblemValue())
-                .select(SysProblem::getId)).stream().map(SysProblem::getId).collect(Collectors.toList());
-
-        if (problemIds.isEmpty()) problemIds.add(0L);
+        List<Long> problemIds = getProblemIdsBySearchValue(param);
 
         Page<SysSubmission> page = page(
                 new Page<>(param.getPage(), param.getPageSize()),
@@ -115,6 +107,19 @@ public class SysSubmissionServiceImpl extends ServiceImpl<SysSubmissionMapper, S
                         .orderByDesc(SysSubmission::getSubmitTime)
         );
         return getSubmissionVOPageResult(page);
+    }
+
+    private List<Long> getProblemIdsBySearchValue(QueryPageParam param) {
+        List<Long> problemIds = sysProblemMapper.selectList(new LambdaQueryWrapper<SysProblem>()
+                .like(SysProblem::getTitle, "%" + param.getSearchProblemValue().replace("%", "\\%").replace("_", "\\_") + "%")
+                .or()
+                .like(SysProblem::getCustomId, "%" + param.getSearchProblemValue().replace("%", "\\%").replace("_", "\\_") + "%")
+                .or()
+                .eq(SysProblem::getId, param.getSearchProblemValue())
+                .select(SysProblem::getId)).stream().map(SysProblem::getId).collect(Collectors.toList());
+
+        if (problemIds.isEmpty()) problemIds.add(0L);
+        return problemIds;
     }
 
     @Override
@@ -135,6 +140,19 @@ public class SysSubmissionServiceImpl extends ServiceImpl<SysSubmissionMapper, S
                 new Page<>(param.getPage(), param.getPageSize()),
                 new LambdaQueryWrapper<SysSubmission>()
                         .eq(SysSubmission::getUserId, StpUtil.getLoginIdAsLong())
+                        .orderByDesc(SysSubmission::getSubmitTime)
+        );
+        return getSubmissionVOPageResult(page);
+    }
+
+    @Override
+    public PageResult<SubmissionVO> getUserSubmitsById(QueryPageParam param) {
+        List<Long> problemIds = getProblemIdsBySearchValue(param);
+        Page<SysSubmission> page = page(
+                new Page<>(param.getPage(), param.getPageSize()),
+                new LambdaQueryWrapper<SysSubmission>()
+                        .in(SysSubmission::getProblemId, problemIds)
+                        .eq(SysSubmission::getUserId, param.getSearchUserId())
                         .orderByDesc(SysSubmission::getSubmitTime)
         );
         return getSubmissionVOPageResult(page);

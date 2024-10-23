@@ -21,4 +21,6 @@ public class QueryPageParam extends PageQueryParam {
     private String searchProblemValue;
 
     private String searchUserValue;
+
+    private long searchUserId;
 }

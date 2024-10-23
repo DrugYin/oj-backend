@@ -6,9 +6,6 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.example.oj.common.model.PageResult;
 import com.example.oj.domain.SysTags;
 import com.example.oj.mapper.SysTagsMapper;
-import com.example.oj.param.tags.CreateTagParam;
-import com.example.oj.param.tags.DeleteTagParam;
-import com.example.oj.param.tags.UpdateTagParam;
 import com.example.oj.service.SysTagsService;
 import com.example.oj.vo.tags.TagPageQueryParam;
 import com.example.oj.vo.tags.TagsVO;
@@ -28,30 +25,6 @@ import java.util.stream.Collectors;
 @Service
 public class SysTagsServiceImpl extends ServiceImpl<SysTagsMapper, SysTags>
         implements SysTagsService {
-
-    @Override
-    public void createTag(CreateTagParam param) {
-        SysTags sysTags = new SysTags();
-        sysTags.setName(param.getName());
-        sysTags.setColor(param.getColor());
-        sysTags.setGmtCreate(LocalDateTime.now());
-        sysTags.setGmtCreate(LocalDateTime.now());
-        save(sysTags);
-    }
-
-    @Override
-    public void deleteTag(DeleteTagParam param) {
-        removeById(param.getId());
-    }
-
-    @Override
-    public void updateTag(UpdateTagParam param) {
-        SysTags sysTags = getById(param.getId());
-        sysTags.setName(param.getName());
-        sysTags.setColor(param.getColor());
-        sysTags.setGmtModified(LocalDateTime.now());
-        updateById(sysTags);
-    }
 
     @Override
     public PageResult<TagsVO> getTags(TagPageQueryParam param) {
