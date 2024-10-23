@@ -25,7 +25,9 @@ public enum GlobalErrorCodeEnum implements IErrorCode {
     FILE_UPLOAD_FAIL(10102L, "文件上传失败"),
     LANGUAGE_ALREADY_EXIST(10201L, "语言已存在"),
     LANGUAGE_NOT_EXIST(10202L, "语言不存在"),
-    SUBMISSION_NOT_EXIST(10301L, "提交不存在")
+    SUBMISSION_NOT_EXIST(10301L, "提交不存在"),
+    TAG_NOT_EXIST(10401L, "标签不存在"),
+    TAG_ALREADY_EXIST(10402L, "标签已存在"),
     ;
 
     private final Long code;

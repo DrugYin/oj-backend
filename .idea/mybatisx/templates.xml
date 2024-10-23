@@ -69,8 +69,8 @@
             <option name="tableUIInfoList">
               <list>
                 <TableUIInfo>
-                  <option name="className" value="SysSubmission" />
-                  <option name="tableName" value="sys_submission" />
+                  <option name="className" value="SysTags" />
+                  <option name="tableName" value="sys_tags" />
                 </TableUIInfo>
               </list>
             </option>

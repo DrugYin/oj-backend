@@ -3,10 +3,10 @@ package com.creative.ojadmin.common.pojo;
 import cn.dev33.satoken.stp.StpInterface;
 import com.creative.ojadmin.common.exception.ServiceException;
 import com.creative.ojadmin.common.exception.enums.GlobalErrorCodeEnum;
-import com.creative.ojadmin.controller.role.param.GetRoleParam;
+import com.creative.ojadmin.controller.sys.role.param.GetRoleParam;
 import com.creative.ojadmin.domain.SysRoleDO;
-import com.creative.ojadmin.service.role.SysRoleService;
-import com.creative.ojadmin.service.role.SysUserRoleService;
+import com.creative.ojadmin.service.sys.role.SysRoleService;
+import com.creative.ojadmin.service.sys.role.SysUserRoleService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
