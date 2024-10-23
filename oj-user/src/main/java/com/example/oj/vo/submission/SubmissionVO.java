@@ -12,6 +12,9 @@ import java.time.LocalDateTime;
  */
 @Data
 public class SubmissionVO {
+
+    private long id;
+
     private long userId;
 
     private String username;

@@ -145,6 +145,7 @@ public class SysSubmissionServiceImpl extends ServiceImpl<SysSubmissionMapper, S
     private PageResult<SubmissionVO> getSubmissionVOPageResult(Page<SysSubmission> page) {
         List<SubmissionVO> collect = page.getRecords().stream().map(item -> {
             SubmissionVO submissionVO = new SubmissionVO();
+            submissionVO.setId(item.getId());
             submissionVO.setUsername(sysUserInfoMapper.selectById(item.getUserId()).getUserName());
             submissionVO.setProblemId(item.getProblemId());
             submissionVO.setProblemTitle(sysProblemMapper.selectById(item.getProblemId()).getTitle());
