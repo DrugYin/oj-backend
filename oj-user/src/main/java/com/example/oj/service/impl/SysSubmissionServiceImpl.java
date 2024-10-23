@@ -65,15 +65,13 @@ public class SysSubmissionServiceImpl extends ServiceImpl<SysSubmissionMapper, S
         sysSubmission.setLanguageId(param.getLanguage());
         // 获取当前登录用户的id
         sysSubmission.setUserId(StpUtil.getLoginIdAsLong());
-        sysSubmission.setStatus(0l);
+        sysSubmission.setStatus(0L);
         // 存储测评记录
         save(sysSubmission);
 
 
         // 测评，创建一个线程，并测评
-        Thread thread = new Thread(() -> {
-            startJudge(sysSubmission);
-        });
+        Thread thread = new Thread(() -> startJudge(sysSubmission));
         // 启动线程
         thread.start();
 
@@ -168,7 +166,7 @@ public class SysSubmissionServiceImpl extends ServiceImpl<SysSubmissionMapper, S
     /**
      * 开始测评
      *
-     * @param sysSubmission
+     * @param sysSubmission /
      */
     private void startJudge(SysSubmission sysSubmission) {
         log.info("开始测评了，测评id为：{}", sysSubmission.getId());
@@ -178,8 +176,8 @@ public class SysSubmissionServiceImpl extends ServiceImpl<SysSubmissionMapper, S
         JSONArray submissions = new JSONArray();
         // 遍历测试数据，逐个提交
         HashMap<String, Object> param = new HashMap<>();
-        for (int i = 0; i < jsonArray.size(); i++) {
-            JSONObject jsonObject = (JSONObject) jsonArray.get(i);
+        for (Object o : jsonArray) {
+            JSONObject jsonObject = (JSONObject) o;
             String input = jsonObject.getStr("input");
             String output = jsonObject.getStr("output");
             long problemId = sysSubmission.getProblemId();
@@ -203,9 +201,7 @@ public class SysSubmissionServiceImpl extends ServiceImpl<SysSubmissionMapper, S
         // 调用沙箱接口，获取测评结果
         String submitTokens = getSubmitToken(params);
         log.info("提交tokens：{}", submitTokens);
-        Thread thread = new Thread(() -> {
-            getSubmitStatus(submitTokens, sysSubmission);
-        });
+        Thread thread = new Thread(() -> getSubmitStatus(submitTokens, sysSubmission));
         thread.start();
     }
 
@@ -264,7 +260,7 @@ public class SysSubmissionServiceImpl extends ServiceImpl<SysSubmissionMapper, S
                                 .set(SysSubmission::getStatus, -1)
                         );
                         log.info("编译失败，测评id为：{}", sysSubmission.getId());
-                    } else if (statusId >= 7 && statusId <= 12) {
+                    } else if (statusId <= 12) {
                         update(new LambdaUpdateWrapper<SysSubmission>()
                                 .eq(SysSubmission::getId, sysSubmission.getId())
                                 .set(SysSubmission::getStatus, 103)
