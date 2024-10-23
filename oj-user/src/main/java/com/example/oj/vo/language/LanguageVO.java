@@ -16,6 +16,6 @@ public class LanguageVO {
 
     private int value;
 
-    private int enable;
+    private boolean enable;
 
 }

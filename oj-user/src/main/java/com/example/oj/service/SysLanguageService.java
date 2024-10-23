@@ -2,9 +2,6 @@ package com.example.oj.service;
 
 import com.example.oj.domain.SysLanguage;
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.example.oj.param.languege.CreateLanguageParam;
-import com.example.oj.param.languege.DeleteLanguageParam;
-import com.example.oj.param.languege.UpdateLanguageParam;
 import com.example.oj.vo.language.LanguagesVO;
 
 /**
@@ -13,12 +10,6 @@ import com.example.oj.vo.language.LanguagesVO;
  * @createDate 2024-10-10 19:24:55
  */
 public interface SysLanguageService extends IService<SysLanguage> {
-
-    void createLanguage(CreateLanguageParam param);
-
-    void deleteLanguage(DeleteLanguageParam param);
-
-    void updateLanguage(UpdateLanguageParam param);
 
     LanguagesVO getLanguages();
 

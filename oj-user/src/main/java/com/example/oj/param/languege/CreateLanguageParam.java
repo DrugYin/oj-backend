@@ -12,7 +12,7 @@ public class CreateLanguageParam {
 
     private String name;
 
-    private int submitId;
+    private int code;
 
     private int enable;
 
