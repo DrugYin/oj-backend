@@ -12,7 +12,7 @@ public class CreateLanguageParam {
 
     private String label;
 
-    private long value;
+    private int value;
 
     private boolean enable;
 

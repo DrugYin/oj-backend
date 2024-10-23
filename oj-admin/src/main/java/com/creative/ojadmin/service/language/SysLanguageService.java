@@ -1,5 +1,8 @@
 package com.creative.ojadmin.service.language;
 
+import com.creative.ojadmin.controller.language.param.CreateLanguageParam;
+import com.creative.ojadmin.controller.language.param.DeleteLanguageParam;
+import com.creative.ojadmin.controller.language.param.UpdateLanguageParam;
 import com.creative.ojadmin.domain.SysLanguageDO;
 import com.baomidou.mybatisplus.extension.service.IService;
 
@@ -9,5 +12,11 @@ import com.baomidou.mybatisplus.extension.service.IService;
 * @createDate 2024-10-23 11:13:45
 */
 public interface SysLanguageService extends IService<SysLanguageDO> {
+
+    void createLanguage(CreateLanguageParam param);
+
+    void updateLanguage(UpdateLanguageParam param);
+
+    void deleteLanguage(DeleteLanguageParam param);
 
 }
