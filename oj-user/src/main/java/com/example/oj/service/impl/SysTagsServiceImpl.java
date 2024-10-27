@@ -7,12 +7,11 @@ import com.example.oj.common.model.PageResult;
 import com.example.oj.domain.SysTags;
 import com.example.oj.mapper.SysTagsMapper;
 import com.example.oj.service.SysTagsService;
-import com.example.oj.vo.tags.TagPageQueryParam;
+import com.example.oj.param.tags.TagPageQueryParam;
 import com.example.oj.vo.tags.TagsVO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -48,6 +47,13 @@ public class SysTagsServiceImpl extends ServiceImpl<SysTagsMapper, SysTags>
 
         return new PageResult<>(page.getTotal(), collect);
     }
+
+    @Override
+    public TagsVO getTagById(Long id) {
+        SysTags sysTags = baseMapper.selectById(id);
+        return new TagsVO(sysTags.getId(), sysTags.getName(), sysTags.getColor());
+    }
+
 }
 
 

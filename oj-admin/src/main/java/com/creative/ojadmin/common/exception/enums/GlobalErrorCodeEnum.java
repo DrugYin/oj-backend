@@ -28,6 +28,8 @@ public enum GlobalErrorCodeEnum implements IErrorCode {
     SUBMISSION_NOT_EXIST(10301L, "提交不存在"),
     TAG_NOT_EXIST(10401L, "标签不存在"),
     TAG_ALREADY_EXIST(10402L, "标签已存在"),
+    PROBLEM_NOT_EXIST(10501L, "题目不存在"),
+    PROBLEM_ALREADY_EXIST(10502L, "题目已存在"),
     ;
 
     private final Long code;

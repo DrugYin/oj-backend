@@ -1,11 +1,11 @@
-package com.example.oj.vo.problem;
+package com.creative.ojadmin.controller.problems.problem.vo;
 
 import lombok.Data;
 
 /**
- * @author 云海
+ * @author LiChongWei
+ * @date 2024/10/26 15:57
  * @description
- * @createDate 2024/6/14 下午2:30
  */
 @Data
 public class ProblemVO {
@@ -27,6 +27,9 @@ public class ProblemVO {
 
     /* 题目被接受的次数 */
     private long acceptCount;
+
+    /* 题目是否可见 */
+    private boolean visible;
 
     /* 题目的描述 */
     private String description;

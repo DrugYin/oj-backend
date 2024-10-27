@@ -1,22 +1,20 @@
-package com.example.oj.domain;
+package com.creative.ojadmin.domain;
 
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
-import lombok.Data;
-
 import java.io.Serializable;
 import java.time.LocalDateTime;
+import lombok.Data;
 
 /**
  * 题目信息表
- *
  * @TableName sys_problem
  */
-@TableName(value = "sys_problem")
+@TableName(value ="sys_problem")
 @Data
-public class SysProblem implements Serializable {
+public class SysProblemDO implements Serializable {
     /**
      * 题目id
      */
@@ -60,7 +58,7 @@ public class SysProblem implements Serializable {
     private String outputDescription;
 
     /**
-     * 测试样例
+     * 测试数据
      */
     @TableField(value = "test_sample")
     private String testSample;
@@ -78,17 +76,16 @@ public class SysProblem implements Serializable {
     private Integer limitMemory;
 
     /**
-     * 提交次数
+     * 提交数量
      */
     @TableField(value = "submit_count")
     private Long submitCount;
 
     /**
-     * 通过次数
+     * 通过数量
      */
     @TableField(value = "accept_count")
     private Long acceptCount;
-
 
     /**
      * 是否可见
@@ -103,7 +100,7 @@ public class SysProblem implements Serializable {
     private LocalDateTime gmtCreate;
 
     /**
-     * 修改时间
+     * 更新时间
      */
     @TableField(value = "gmt_modified")
     private LocalDateTime gmtModified;

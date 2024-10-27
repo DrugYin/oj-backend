@@ -110,6 +110,7 @@ public class SysProblemServiceImpl extends ServiceImpl<SysProblemMapper, SysProb
                                 item -> item.like(SysProblem::getCustomId, param.getSearchStr())
                                         .or()
                                         .like(SysProblem::getTitle, param.getSearchStr()))
+                        .and(item -> item.eq(SysProblem::getVisible, 1))
                         .orderByAsc(SysProblem::getCustomId)
         );
 

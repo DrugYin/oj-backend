@@ -3,7 +3,7 @@ package com.example.oj.service;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.example.oj.common.model.PageResult;
 import com.example.oj.domain.SysTags;
-import com.example.oj.vo.tags.TagPageQueryParam;
+import com.example.oj.param.tags.TagPageQueryParam;
 import com.example.oj.vo.tags.TagsVO;
 
 /**
@@ -14,5 +14,7 @@ import com.example.oj.vo.tags.TagsVO;
 public interface SysTagsService extends IService<SysTags> {
 
     PageResult<TagsVO> getTags(TagPageQueryParam param);
+
+    TagsVO getTagById(Long id);
 
 }

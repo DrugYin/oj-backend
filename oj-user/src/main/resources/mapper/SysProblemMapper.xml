@@ -17,16 +17,16 @@
         <result property="limitMemory" column="limit_memory" jdbcType="INTEGER"/>
         <result property="submitCount" column="submit_count" jdbcType="BIGINT"/>
         <result property="acceptCount" column="accept_count" jdbcType="BIGINT"/>
+        <result property="visible" column="visible" jdbcType="INTEGER"/>
         <result property="gmtCreate" column="gmt_create" jdbcType="TIMESTAMP"/>
         <result property="gmtModified" column="gmt_modified" jdbcType="TIMESTAMP"/>
     </resultMap>
 
     <sql id="Base_Column_List">
-        id
-        ,title,author,
+        id,title,author,
         custom_id,description,input_description,
         output_description,test_sample,limit_time,
         limit_memory,submit_count,accept_count,
-        gmt_create,gmt_modified
+        visible,gmt_create,gmt_modified
     </sql>
 </mapper>

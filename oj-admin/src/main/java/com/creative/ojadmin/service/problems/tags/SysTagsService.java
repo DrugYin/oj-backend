@@ -1,10 +1,13 @@
-package com.creative.ojadmin.service.problem.tags;
+package com.creative.ojadmin.service.problems.tags;
 
-import com.creative.ojadmin.controller.problem.tags.param.CreateTagParam;
-import com.creative.ojadmin.controller.problem.tags.param.DeleteTagParam;
-import com.creative.ojadmin.controller.problem.tags.param.UpdateTagParam;
+import com.creative.ojadmin.controller.problems.tags.param.CreateTagParam;
+import com.creative.ojadmin.controller.problems.tags.param.DeleteTagParam;
+import com.creative.ojadmin.controller.problems.tags.param.UpdateTagParam;
+import com.creative.ojadmin.controller.problems.tags.vo.TagVO;
 import com.creative.ojadmin.domain.SysTagsDO;
 import com.baomidou.mybatisplus.extension.service.IService;
+
+import java.util.List;
 
 /**
 * @author Barbuda
@@ -18,5 +21,7 @@ public interface SysTagsService extends IService<SysTagsDO> {
     void updateTag(UpdateTagParam param);
 
     void deleteTag(DeleteTagParam param);
+
+    List<TagVO> getAllTags();
 
 }

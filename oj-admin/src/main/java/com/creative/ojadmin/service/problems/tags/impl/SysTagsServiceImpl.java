@@ -1,19 +1,22 @@
-package com.creative.ojadmin.service.problem.tags.impl;
+package com.creative.ojadmin.service.problems.tags.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.creative.ojadmin.common.exception.ServiceException;
 import com.creative.ojadmin.common.exception.enums.GlobalErrorCodeEnum;
-import com.creative.ojadmin.controller.problem.tags.param.CreateTagParam;
-import com.creative.ojadmin.controller.problem.tags.param.DeleteTagParam;
-import com.creative.ojadmin.controller.problem.tags.param.UpdateTagParam;
+import com.creative.ojadmin.controller.problems.tags.TagsController;
+import com.creative.ojadmin.controller.problems.tags.param.CreateTagParam;
+import com.creative.ojadmin.controller.problems.tags.param.DeleteTagParam;
+import com.creative.ojadmin.controller.problems.tags.param.UpdateTagParam;
+import com.creative.ojadmin.controller.problems.tags.vo.TagVO;
 import com.creative.ojadmin.domain.SysTagsDO;
-import com.creative.ojadmin.service.problem.tags.SysTagsService;
+import com.creative.ojadmin.service.problems.tags.SysTagsService;
 import com.creative.ojadmin.mapper.SysTagsMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 /**
 * @author Barbuda
@@ -62,6 +65,20 @@ public class SysTagsServiceImpl extends ServiceImpl<SysTagsMapper, SysTagsDO>
             throw new ServiceException(GlobalErrorCodeEnum.TAG_NOT_EXIST);
         }
         removeById(param.getId());
+    }
+
+    @Override
+    public List<TagVO> getAllTags() {
+        List<SysTagsDO> tagsDOS = baseMapper.selectList(new LambdaQueryWrapper<SysTagsDO>()
+                .orderByAsc(SysTagsDO::getId)
+        );
+        return tagsDOS.stream().map(item -> {
+            TagVO tagVO = new TagVO();
+            tagVO.setId(item.getId());
+            tagVO.setName(item.getName());
+            tagVO.setColor(item.getColor());
+            return tagVO;
+        }).toList();
     }
 }
 

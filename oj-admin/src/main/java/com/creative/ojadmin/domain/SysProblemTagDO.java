@@ -1,21 +1,20 @@
-package com.example.oj.domain;
+package com.creative.ojadmin.domain;
 
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
-
 import java.io.Serializable;
-import java.util.Date;
-
+import java.time.LocalDateTime;
 import lombok.Data;
 
 /**
+ * 
  * @TableName sys_problem_tag
  */
-@TableName(value = "sys_problem_tag")
+@TableName(value ="sys_problem_tag")
 @Data
-public class SysProblemTag implements Serializable {
+public class SysProblemTagDO implements Serializable {
     /**
      * 题目id
      */
@@ -23,7 +22,7 @@ public class SysProblemTag implements Serializable {
     private Long id;
 
     /**
-     *
+     * 
      */
     @TableField(value = "problem_id")
     private Long problemId;
@@ -38,13 +37,13 @@ public class SysProblemTag implements Serializable {
      * 创建时间
      */
     @TableField(value = "gmt_create")
-    private Date gmtCreate;
+    private LocalDateTime gmtCreate;
 
     /**
      * 更新时间
      */
     @TableField(value = "gmt_modified")
-    private Date gmtModified;
+    private LocalDateTime gmtModified;
 
     @TableField(exist = false)
     private static final long serialVersionUID = 1L;

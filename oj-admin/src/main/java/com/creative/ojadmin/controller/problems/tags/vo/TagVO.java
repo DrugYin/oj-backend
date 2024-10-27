@@ -1,14 +1,16 @@
-package com.creative.ojadmin.controller.problem.tags.param;
+package com.creative.ojadmin.controller.problems.tags.vo;
 
 import lombok.Data;
 
 /**
  * @author LiChongWei
- * @date 2024/10/23 19:01
+ * @date 2024/10/27 18:36
  * @description
  */
 @Data
-public class CreateTagParam {
+public class TagVO {
+
+    private Long id;
 
     private String name;
 

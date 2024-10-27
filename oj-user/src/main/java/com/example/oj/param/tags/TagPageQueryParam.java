@@ -1,4 +1,4 @@
-package com.example.oj.vo.tags;
+package com.example.oj.param.tags;
 
 import com.example.oj.common.model.PageQueryParam;
 import lombok.Data;

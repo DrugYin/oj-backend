@@ -1,4 +1,4 @@
-package com.creative.ojadmin.controller.problem.tags.param;
+package com.creative.ojadmin.controller.problems.tags.param;
 
 import lombok.Data;
 

@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.creative.ojadmin.mapper.SysProblemMapper">
+
+    <resultMap id="BaseResultMap" type="com.creative.ojadmin.domain.SysProblemDO">
+            <id property="id" column="id" jdbcType="BIGINT"/>
+            <result property="title" column="title" jdbcType="VARCHAR"/>
+            <result property="author" column="author" jdbcType="VARCHAR"/>
+            <result property="customId" column="custom_id" jdbcType="VARCHAR"/>
+            <result property="description" column="description" jdbcType="VARCHAR"/>
+            <result property="inputDescription" column="input_description" jdbcType="VARCHAR"/>
+            <result property="outputDescription" column="output_description" jdbcType="VARCHAR"/>
+            <result property="testSample" column="test_sample" jdbcType="VARCHAR"/>
+            <result property="limitTime" column="limit_time" jdbcType="INTEGER"/>
+            <result property="limitMemory" column="limit_memory" jdbcType="INTEGER"/>
+            <result property="submitCount" column="submit_count" jdbcType="BIGINT"/>
+            <result property="acceptCount" column="accept_count" jdbcType="BIGINT"/>
+            <result property="visible" column="visible" jdbcType="INTEGER"/>
+            <result property="gmtCreate" column="gmt_create" jdbcType="TIMESTAMP"/>
+            <result property="gmtModified" column="gmt_modified" jdbcType="TIMESTAMP"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id,title,author,
+        custom_id,description,input_description,
+        output_description,test_sample,limit_time,
+        limit_memory,submit_count,accept_count,
+        visible,gmt_create,gmt_modified
+    </sql>
+</mapper>
