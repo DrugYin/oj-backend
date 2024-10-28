@@ -2,7 +2,6 @@ package com.example.oj.controller;
 
 import com.example.oj.common.model.Result;
 import com.example.oj.param.notice.QueryPageParam;
-import com.example.oj.param.problem.*;
 import com.example.oj.service.SysProblemService;
 import com.example.oj.service.SysProblemTestService;
 import lombok.RequiredArgsConstructor;
@@ -25,7 +24,6 @@ import org.springframework.web.bind.annotation.*;
  */
 public class ProblemController {
 
-    private static final Logger log = LoggerFactory.getLogger(ProblemController.class);
     /**
      * 系统问题服务接口，用于执行具体的问题操作。
      */

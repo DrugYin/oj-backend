@@ -14,4 +14,8 @@ public class RoleVO {
 
     private String name;
 
+    private String code;
+
+    private boolean status;
+
 }
