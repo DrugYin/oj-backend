@@ -1,9 +1,7 @@
 package com.creative.ojadmin.controller.problems.problem;
 
 import com.creative.ojadmin.common.pojo.ResponseResult;
-import com.creative.ojadmin.controller.problems.problem.param.ChangeProblemVisibleParam;
-import com.creative.ojadmin.controller.problems.problem.param.DeleteProblemParam;
-import com.creative.ojadmin.controller.problems.problem.param.QueryProblemParam;
+import com.creative.ojadmin.controller.problems.problem.param.*;
 import com.creative.ojadmin.service.problems.problem.SysProblemService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
@@ -34,6 +32,18 @@ public class ProblemController {
     @PostMapping("/delete")
     public ResponseResult<?> deleteProblem(@RequestBody DeleteProblemParam param) {
         sysProblemService.deleteProblem(param);
+        return ResponseResult.success("OK");
+    }
+
+    @PostMapping("/create")
+    public ResponseResult<?> createProblem(@RequestBody CreateProblemParam param) {
+        sysProblemService.createProblem(param);
+        return ResponseResult.success("OK");
+    }
+
+    @PostMapping("/update")
+    public ResponseResult<?> UpdateProblem(@RequestBody UpdateProblemParam param){
+        sysProblemService.updateProblem(param);
         return ResponseResult.success("OK");
     }
 

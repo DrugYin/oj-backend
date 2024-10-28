@@ -1,15 +1,14 @@
-package com.example.oj.param.problem;
+package com.creative.ojadmin.controller.problems.problem.param;
 
 import lombok.Data;
 
 /**
- * @author 云海
+ * @author LiChongWei
+ * @date 2024/10/28 18:02
  * @description
- * @createDate 2024/6/14 下午2:13
  */
 @Data
 public class CreateProblemParam {
-
     /**
      * 问题标题，用于描述问题的核心内容。
      */
@@ -46,6 +45,11 @@ public class CreateProblemParam {
     private String testSample;
 
     /**
+     * 测试点数据
+     */
+    private String testData;
+
+    /**
      * 限制时间，规定解决问题的最大允许时间。
      */
     private Integer limitTime;
@@ -54,5 +58,4 @@ public class CreateProblemParam {
      * 限制内存，规定解决问题的最大允许内存。
      */
     private Integer limitMemory;
-
 }

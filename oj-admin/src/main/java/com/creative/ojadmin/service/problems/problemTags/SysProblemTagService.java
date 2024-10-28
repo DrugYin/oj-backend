@@ -13,4 +13,6 @@ public interface SysProblemTagService extends IService<SysProblemTagDO> {
 
     void updateProblemTags(UpdateProblemTagsParam param);
 
+    void deleteByProblemId(Long problemId);
+
 }

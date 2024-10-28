@@ -6,13 +6,16 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.creative.ojadmin.common.exception.ServiceException;
 import com.creative.ojadmin.common.exception.enums.GlobalErrorCodeEnum;
 import com.creative.ojadmin.common.pojo.PageResult;
-import com.creative.ojadmin.controller.problems.problem.param.ChangeProblemVisibleParam;
-import com.creative.ojadmin.controller.problems.problem.param.DeleteProblemParam;
-import com.creative.ojadmin.controller.problems.problem.param.QueryProblemParam;
+import com.creative.ojadmin.controller.problems.problem.param.*;
 import com.creative.ojadmin.controller.problems.problem.vo.ProblemVO;
+import com.creative.ojadmin.controller.problems.problemTest.param.CreateProblemTestParam;
+import com.creative.ojadmin.controller.problems.problemTest.param.DeleteProblemTestParam;
+import com.creative.ojadmin.controller.problems.problemTest.param.UpdateProblemTestParam;
 import com.creative.ojadmin.domain.SysProblemDO;
 import com.creative.ojadmin.service.problems.problem.SysProblemService;
 import com.creative.ojadmin.mapper.SysProblemMapper;
+import com.creative.ojadmin.service.problems.problemTags.SysProblemTagService;
+import com.creative.ojadmin.service.problems.problemTest.SysProblemTestService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -31,6 +34,8 @@ public class SysProblemServiceImpl extends ServiceImpl<SysProblemMapper, SysProb
         implements SysProblemService {
 
     private final SysProblemMapper baseMapper;
+    private final SysProblemTestService sysProblemTestService;
+    private final SysProblemTagService sysProblemTagService;
 
     @Override
     public PageResult<ProblemVO> pageQueryProblems(QueryProblemParam param) {
@@ -65,6 +70,8 @@ public class SysProblemServiceImpl extends ServiceImpl<SysProblemMapper, SysProb
             throw new ServiceException(GlobalErrorCodeEnum.PROBLEM_NOT_EXIST);
         }
         baseMapper.deleteById(param.getId());
+        sysProblemTestService.deleteById(new DeleteProblemTestParam(param.getId()));
+        sysProblemTagService.deleteByProblemId(param.getId());
     }
 
     @Override
@@ -76,6 +83,52 @@ public class SysProblemServiceImpl extends ServiceImpl<SysProblemMapper, SysProb
         problemDO.setVisible(param.isVisible() ? 1 : 0);
         problemDO.setGmtModified(LocalDateTime.now());
         updateById(problemDO);
+    }
+
+    @Override
+    public void createProblem(CreateProblemParam param) {
+        SysProblemDO problemDO1 = baseMapper.selectOne(new LambdaQueryWrapper<SysProblemDO>()
+                .eq(SysProblemDO::getCustomId, param.getCustomId())
+        );
+        if (problemDO1 != null) {
+            throw new ServiceException(GlobalErrorCodeEnum.PROBLEM_ALREADY_EXIST);
+        }
+        SysProblemDO problemDO = new SysProblemDO();
+        problemDO.setAuthor(param.getAuthor());
+        problemDO.setCustomId(param.getCustomId());
+        problemDO.setTitle(param.getTitle());
+        problemDO.setAuthor(param.getAuthor());
+        problemDO.setDescription(param.getDescription());
+        problemDO.setInputDescription(param.getInputDescription());
+        problemDO.setOutputDescription(param.getOutputDescription());
+        problemDO.setLimitMemory(param.getLimitMemory());
+        problemDO.setLimitTime(param.getLimitTime());
+        problemDO.setTestSample(param.getTestSample());
+        save(problemDO);
+        sysProblemTestService.createProblemTest(new CreateProblemTestParam(param.getTestData()));
+    }
+
+    @Override
+    public void updateProblem(UpdateProblemParam param) {
+        SysProblemDO problemDO = baseMapper.selectById(param.getId());
+        if (problemDO == null) {
+            throw new ServiceException(GlobalErrorCodeEnum.PROBLEM_NOT_EXIST);
+        }
+        problemDO.setTitle(param.getTitle());
+        problemDO.setAuthor(param.getAuthor());
+        problemDO.setCustomId(param.getCustomId());
+        problemDO.setDescription(param.getDescription());
+        problemDO.setInputDescription(param.getInputDescription());
+        problemDO.setOutputDescription(param.getOutputDescription());
+        problemDO.setLimitMemory(param.getLimitMemory());
+        problemDO.setLimitTime(param.getLimitTime());
+        problemDO.setTestSample(param.getTestSample());
+        problemDO.setGmtModified(LocalDateTime.now());
+        updateById(problemDO);
+        UpdateProblemTestParam updateProblemTestParam = new UpdateProblemTestParam();
+        updateProblemTestParam.setId(param.getId());
+        updateProblemTestParam.setContent(param.getTestData());
+        sysProblemTestService.updateProblemTest(updateProblemTestParam);
     }
 }
 

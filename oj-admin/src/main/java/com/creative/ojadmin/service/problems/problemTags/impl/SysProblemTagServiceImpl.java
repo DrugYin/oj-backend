@@ -37,6 +37,13 @@ public class SysProblemTagServiceImpl extends ServiceImpl<SysProblemTagMapper, S
             save(problemTagDO);
         }
     }
+
+    @Override
+    public void deleteByProblemId(Long problemId) {
+        baseMapper.delete(new LambdaQueryWrapper<SysProblemTagDO>()
+                .eq(SysProblemTagDO::getProblemId, problemId)
+        );
+    }
 }
 
 

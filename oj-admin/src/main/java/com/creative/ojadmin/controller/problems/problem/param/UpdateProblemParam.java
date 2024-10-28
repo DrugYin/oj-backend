@@ -1,16 +1,16 @@
-package com.example.oj.param.languege;
+package com.creative.ojadmin.controller.problems.problem.param;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
 /**
  * @author LiChongWei
+ * @date 2024/10/28 18:03
  * @description
- * @createDate 2024/10/10 下午7:27
  */
 @EqualsAndHashCode(callSuper = true)
 @Data
-public class UpdateLanguageParam extends CreateLanguageParam {
+public class UpdateProblemParam extends CreateProblemParam{
 
     private long id;
 

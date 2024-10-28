@@ -43,41 +43,6 @@ public class ProblemController {
         return Result.success(sysProblemService.pageQuery(param));
     }
 
-    /**
-     * 创建新的系统问题。
-     *
-     * @param param 创建参数，包含新问题的详细信息。
-     * @return 创建结果，成功返回空结果。
-     */
-    @PostMapping("/create")
-    public Result<?> create(@RequestBody CreateProblemParam param) {
-        sysProblemService.createProblem(param);
-        return Result.success(null);
-    }
-
-    /**
-     * 更新已存在的系统问题。
-     *
-     * @param param 更新参数，包含要更新的问题ID和更新后的信息。
-     * @return 更新结果，成功返回空结果。
-     */
-    @PostMapping("/update")
-    public Result<?> update(@RequestBody UpdateProblemParam param) {
-        sysProblemService.updateProblem(param);
-        return Result.success(null);
-    }
-
-    /**
-     * 删除指定的系统问题。
-     *
-     * @param param 删除参数，包含要删除的问题ID。
-     * @return 删除结果，成功返回空结果。
-     */
-    @PostMapping("/delete")
-    public Result<?> delete(@RequestBody DeleteProblemParam param) {
-        sysProblemService.deleteProblem(param);
-        return Result.success(null);
-    }
 
     @GetMapping("/{problemId}")
     public Result<?> getProblemDetail(@PathVariable long problemId) {
@@ -95,23 +60,4 @@ public class ProblemController {
         return Result.success(sysProblemTestService.getById(problemId).getContent());
     }
 
-    @PostMapping("/updateTestData")
-    public Result<?> updateTestData(@RequestBody UpdateProblemTestParam param) {
-        log.info("updateTestData param: {}", param);
-        sysProblemTestService.updateProblemTest(param);
-        return Result.success("ok");
-    }
-
-    @PostMapping("/createTestData")
-    public Result<?> createTestData(@RequestBody CreateProblemTestParam param) {
-        sysProblemTestService.createProblemTest(param);
-        return Result.success("ok");
-    }
-
-
-    @PostMapping("/deleteTestData")
-    public Result<?> deleteTestData(@RequestBody DeleteProblemTestParam param) {
-        sysProblemTestService.deleteProblemTest(param);
-        return Result.success("ok");
-    }
 }

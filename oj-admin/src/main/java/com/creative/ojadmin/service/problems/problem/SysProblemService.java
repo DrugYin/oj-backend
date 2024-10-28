@@ -1,9 +1,7 @@
 package com.creative.ojadmin.service.problems.problem;
 
 import com.creative.ojadmin.common.pojo.PageResult;
-import com.creative.ojadmin.controller.problems.problem.param.ChangeProblemVisibleParam;
-import com.creative.ojadmin.controller.problems.problem.param.DeleteProblemParam;
-import com.creative.ojadmin.controller.problems.problem.param.QueryProblemParam;
+import com.creative.ojadmin.controller.problems.problem.param.*;
 import com.creative.ojadmin.controller.problems.problem.vo.ProblemVO;
 import com.creative.ojadmin.domain.SysProblemDO;
 import com.baomidou.mybatisplus.extension.service.IService;
@@ -21,4 +19,7 @@ public interface SysProblemService extends IService<SysProblemDO> {
 
     void changeProblemVisible(ChangeProblemVisibleParam param);
 
+    void createProblem(CreateProblemParam param);
+
+    void updateProblem(UpdateProblemParam param);
 }
