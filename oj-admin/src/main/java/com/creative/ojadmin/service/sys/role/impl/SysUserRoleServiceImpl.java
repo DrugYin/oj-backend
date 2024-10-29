@@ -31,6 +31,11 @@ public class SysUserRoleServiceImpl extends ServiceImpl<SysUserRoleMapper, SysUs
                 .select(SysUserRoleDO::getRoleId)
         ).stream().map(SysUserRoleDO::getRoleId).collect(Collectors.toList());
     }
+
+    @Override
+    public void deleteByRoleId(Long roleId) {
+        baseMapper.delete(new LambdaQueryWrapper<SysUserRoleDO>().eq(SysUserRoleDO::getRoleId, roleId));
+    }
 }
 
 

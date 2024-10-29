@@ -15,4 +15,6 @@ public interface SysUserRoleService extends IService<SysUserRoleDO> {
 
     List<Long> getRoleIdsByUserId(GetRoleParam param);
 
+    void deleteByRoleId(Long roleId);
+
 }

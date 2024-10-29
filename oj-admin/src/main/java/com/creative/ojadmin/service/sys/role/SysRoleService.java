@@ -1,7 +1,7 @@
 package com.creative.ojadmin.service.sys.role;
 
 import com.creative.ojadmin.common.pojo.PageResult;
-import com.creative.ojadmin.controller.sys.role.param.QueryRoleParam;
+import com.creative.ojadmin.controller.sys.role.param.*;
 import com.creative.ojadmin.controller.sys.role.vo.RoleVO;
 import com.creative.ojadmin.domain.SysRoleDO;
 import com.baomidou.mybatisplus.extension.service.IService;
@@ -18,5 +18,13 @@ public interface SysRoleService extends IService<SysRoleDO> {
     List<SysRoleDO> getRoleListByRoleIds(List<Long> roleIds);
 
     PageResult<RoleVO> pageQueryRole(QueryRoleParam param);
+
+    void changeRoleStatus(ChangeRoleStatusParam param);
+
+    void deleteRole(DeleteRoleParam param);
+
+    void createRole(CreateRoleParam param);
+
+    void updateRole(UpdateRoleParam param);
 
 }

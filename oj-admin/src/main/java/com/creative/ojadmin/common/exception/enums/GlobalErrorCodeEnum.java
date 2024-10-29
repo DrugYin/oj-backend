@@ -30,6 +30,11 @@ public enum GlobalErrorCodeEnum implements IErrorCode {
     TAG_ALREADY_EXIST(10402L, "标签已存在"),
     PROBLEM_NOT_EXIST(10501L, "题目不存在"),
     PROBLEM_ALREADY_EXIST(10502L, "题目已存在"),
+    ROLE_NOT_EXIST(10601L, "角色不存在"),
+    ROLE_ALREADY_EXIST(10602L, "角色已存在"),
+    ROLE_CODE_ALREADY_EXIST(10603L, "角色编码已存在"),
+    ROLE_ADMIN_CANNOT_DELETE(10604L, "超级管理员角色不可删除"),
+    ROLE_ADMIN_CANNOT_SET(10605L, "超级管理员角色不可修改");
     ;
 
     private final Long code;
