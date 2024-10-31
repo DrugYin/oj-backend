@@ -35,7 +35,7 @@ public class SysTagsServiceImpl extends ServiceImpl<SysTagsMapper, SysTags>
                                 item -> item
                                         .like(SysTags::getName, param.getSearchStr())
                         )
-                        .orderByDesc(SysTags::getGmtCreate)
+                        .orderByAsc(SysTags::getId)
         );
 
         List<TagsVO> collect = page.getRecords().stream().map(item -> {

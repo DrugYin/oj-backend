@@ -1,6 +1,7 @@
 package com.creative.ojadmin.service.submission.submissions;
 
 import com.creative.ojadmin.controller.submission.submissions.param.DeleteSubmitsParam;
+import com.creative.ojadmin.controller.submission.submissions.vo.SubmitRecordVO;
 import com.creative.ojadmin.domain.SysSubmissionDO;
 import com.baomidou.mybatisplus.extension.service.IService;
 
@@ -12,5 +13,9 @@ import com.baomidou.mybatisplus.extension.service.IService;
 public interface SysSubmissionService extends IService<SysSubmissionDO> {
 
     void deleteBySubmitIds(DeleteSubmitsParam param);
+
+    SubmitRecordVO dailySubmitRecord();
+
+    SubmitRecordVO submitRecord();
 
 }

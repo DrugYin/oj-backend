@@ -14,6 +14,7 @@ import com.example.oj.param.notice.QueryPageParam;
 import com.example.oj.param.user.CreateUserInfoParam;
 import com.example.oj.param.user.LoginParam;
 import com.example.oj.param.user.RegisterParam;
+import com.example.oj.param.user.ResetPasswordParam;
 import com.example.oj.service.SysUserService;
 import com.example.oj.vo.user.LoginUserVO;
 import com.example.oj.vo.user.LoginVO;
@@ -22,7 +23,9 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.File;
 import java.io.IOException;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
@@ -65,6 +68,7 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser>
         user.setUsername(param.getUsername());
         user.setPassword(SecureUtil.md5(param.getPassword()));
 //        user.setAvatar("https://userpic.codeforces.org/3820796/title/afbe7e7652d9c06e.jpg");
+        user.setGmtCreate(LocalDateTime.now());
         save(user);
         CreateUserInfoParam createUserInfoParam = new CreateUserInfoParam();
         createUserInfoParam.setCustomName(param.getUsername());
@@ -128,6 +132,22 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser>
     }
 
     @Override
+    public void resetPassword(ResetPasswordParam param) throws Exception {
+        SysUser userDO = getById(param.getUserId());
+        if (!SecureUtil.md5(param.getOldPassword()).equals(userDO.getPassword())) {
+            throw new Exception("旧密码错误");
+        }
+        if (SecureUtil.md5(param.getNewPassword()).equals(userDO.getPassword())) {
+            throw new Exception("新旧密码不能相同");
+        }
+        if (!param.getNewPassword().equals(param.getConfirmPassword())) {
+            throw new Exception("两次密码不一致");
+        }
+        userDO.setPassword(SecureUtil.md5(param.getNewPassword()));
+        updateById(userDO);
+    }
+
+    @Override
     public void updateUserSubmitInfo(int status) {
         SysUser dbUser = getById(StpUtil.getLoginIdAsLong());
         dbUser.setSubmitCount(dbUser.getSubmitCount() + 1);
@@ -162,17 +182,22 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser>
 
     @Override
     public void updateAvatar(MultipartFile file) throws IOException {
+        String avatarSavePath = "D:\\Barbuda\\Project\\oj-backend\\img\\";
         Long userId = StpUtil.getLoginIdAsLong();
         SysUser dbUser = getById(userId);
         String imgName;
-        if (dbUser.getAvatar() != null) {
+        if (!dbUser.getAvatar().isEmpty()) {
             imgName = dbUser.getAvatar().substring(dbUser.getAvatar().lastIndexOf("/") + 1);
+            File oldFile = new File(avatarSavePath + "\\avatar\\" + imgName);
+            if (oldFile.exists()) {
+                oldFile.delete();
+            }
         } else {
+//            System.out.println("------------------------------------------");
             imgName = userId + UUID.randomUUID().toString() + FileUtils.getImageExtension(file);
         }
-        System.out.println(imgName);
-        String avatarSavePath = "D:\\Barbuda\\Project\\oj-backend\\img\\";
-        FileUtils.saveMultipartFile(file, avatarSavePath + "avatar\\" + imgName);
+//        System.out.println(imgName + "++++++++++++++++++");
+        FileUtils.saveMultipartFile(file, avatarSavePath + "\\avatar\\", imgName);
         dbUser.setAvatar("image/avatar/" + imgName);
         updateById(dbUser);
     }

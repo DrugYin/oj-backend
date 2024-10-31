@@ -1,5 +1,6 @@
 package com.creative.ojadmin.controller.home.carousel;
 
+import cn.dev33.satoken.annotation.SaCheckRole;
 import com.creative.ojadmin.common.pojo.ResponseResult;
 import com.creative.ojadmin.controller.home.carousel.param.DeleteCarouselParam;
 import com.creative.ojadmin.controller.home.carousel.param.UpdateCarouselParam;
@@ -24,12 +25,14 @@ public class CarouselController {
 
     private final SysCarouselService sysCarouselService;
 
+    @SaCheckRole("admin")
     @PostMapping(value = "/update", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseResult<?> updateCarousel(UpdateCarouselParam param) {
         sysCarouselService.updateCarousel(param);
         return ResponseResult.success("OK");
     }
 
+    @SaCheckRole("admin")
     @PostMapping(value = "/upload", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseResult<?> uploadCarousel(UploadCarouselParam param) {
         sysCarouselService.uploadCarousel(param);

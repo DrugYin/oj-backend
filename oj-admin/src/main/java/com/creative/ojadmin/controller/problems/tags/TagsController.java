@@ -1,5 +1,6 @@
 package com.creative.ojadmin.controller.problems.tags;
 
+import cn.dev33.satoken.annotation.SaCheckRole;
 import com.creative.ojadmin.common.pojo.ResponseResult;
 import com.creative.ojadmin.controller.problems.problemTags.param.UpdateProblemTagsParam;
 import com.creative.ojadmin.controller.problems.tags.param.CreateTagParam;
@@ -29,24 +30,28 @@ public class TagsController {
         return ResponseResult.success(sysTagsService.getAllTags());
     }
 
+    @SaCheckRole("admin")
     @PostMapping("/create")
     public ResponseResult<?> createTag(@RequestBody CreateTagParam param) {
         sysTagsService.createTag(param);
         return ResponseResult.success("OK");
     }
 
+    @SaCheckRole("admin")
     @PostMapping("/update")
     public ResponseResult<?> updateTag(@RequestBody UpdateTagParam param) {
         sysTagsService.updateTag(param);
         return ResponseResult.success("OK");
     }
 
+    @SaCheckRole("admin")
     @PostMapping("/delete")
     public ResponseResult<?> delete(@RequestBody DeleteTagParam param) {
         sysTagsService.deleteTag(param);
         return ResponseResult.success("OK");
     }
 
+    @SaCheckRole("admin")
     @PostMapping("/problemTags/update")
     public ResponseResult<?> updateProblemTags(@RequestBody UpdateProblemTagsParam param) {
         sysProblemTagService.updateProblemTags(param);

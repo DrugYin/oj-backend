@@ -69,8 +69,8 @@
             <option name="tableUIInfoList">
               <list>
                 <TableUIInfo>
-                  <option name="className" value="SysProblemTest" />
-                  <option name="tableName" value="sys_problem_test" />
+                  <option name="className" value="SysUserInfo" />
+                  <option name="tableName" value="sys_user_info" />
                 </TableUIInfo>
               </list>
             </option>

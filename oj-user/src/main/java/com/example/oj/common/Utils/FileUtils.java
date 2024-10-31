@@ -22,18 +22,14 @@ public class FileUtils {
      * @param localPath     保存路径
      * @throws IOException /
      */
-    public static void saveMultipartFile(MultipartFile multipartFile, String localPath) throws IOException {
+    public static void saveMultipartFile(MultipartFile multipartFile, String localPath, String fileName) throws IOException {
         // 获取文件名
-        String fileName = multipartFile.getOriginalFilename();
-        if (fileName == null || fileName.isEmpty()) {
-            throw new IllegalArgumentException("文件名不能为空");
+        if (multipartFile.isEmpty()) {
+            throw new IllegalArgumentException("文件不能为空");
         }
 
-        // 创建目标文件对象
-        File destFile = new File(localPath);
-
         // 将文件内容写入目标文件
-        multipartFile.transferTo(destFile);
+        multipartFile.transferTo(new File(localPath + fileName));
     }
 
     /**

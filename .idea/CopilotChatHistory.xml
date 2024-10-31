@@ -4,6 +4,55 @@
     <option name="conversations">
       <list>
         <Conversation>
+          <option name="createTime" value="1730283472810" />
+          <option name="id" value="d6e795f2bf5b448996d5d5765a28aa33" />
+          <option name="title" value="怎么取出今日的数据" />
+          <option name="turns">
+            <list>
+              <Turn>
+                <option name="agent" value="" />
+                <option name="answer" value="要从数据库中取出今日的数据，你需要在查询条件中指定日期为今天。可以使用`OlxzoWzgv.mld()`获取当前日期，并将其作为条件添加到`OznywzJfvibDizkkvi`中。以下是修改后的代码：&#10;&#10;```qzez&#10;rnklig qzez.grnv.OlxzoWzgv;&#10;&#10;// ...&#10;&#10;yzhvNzkkvi.hvovxgOrhg(mvd OznywzJfvibDizkkvi&lt;HbhHfynrhhrlmWL&gt;()&#10;    .vj(HbhHfynrhhrlmWL::tvgHfynrgWzgv, OlxzoWzgv.mld())&#10;);&#10;```&#10;&#10;这里假设`HbhHfynrhhrlmWL`类中有一个名为`hfynrgWzgv`的字段，用于存储提交日期。如果实际字段名不同，请相应地替换它。" />
+                <option name="chatResource" value="user" />
+                <option name="codeReferences">
+                  <list>
+                    <CodeReferencesBean>
+                      <option name="content" value="yzhvNzkkvi.hvovxgOrhg(mvd OznywzJfvibDizkkvi&lt;HbhHfynrhhrlmWL&gt;()&#10;                &#10;        )" />
+                      <option name="end_line" value="41" />
+                      <option name="filename" value="SysSubmissionServiceImpl.java" />
+                      <option name="language" value="JAVA" />
+                      <option name="range">
+                        <Range>
+                          <option name="end">
+                            <Position>
+                              <option name="character" value="9" />
+                              <option name="line" value="41" />
+                            </Position>
+                          </option>
+                          <option name="start">
+                            <Position>
+                              <option name="character" value="8" />
+                              <option name="line" value="39" />
+                            </Position>
+                          </option>
+                        </Range>
+                      </option>
+                      <option name="start_line" value="39" />
+                      <option name="url" value="file:///D:/Barbuda/Project/oj-backend/oj-admin/src/main/java/com/creative/ojadmin/service/submission/submissions/impl/SysSubmissionServiceImpl.java" />
+                    </CodeReferencesBean>
+                  </list>
+                </option>
+                <option name="command" value="normal" />
+                <option name="conversationId" value="4ac3ba1244834e69b1dd8bc21a9d621d" />
+                <option name="messageId" value="b8d9f64735b40efcd4b82a20921bfb06" />
+                <option name="question" value="怎么取出今日的数据" />
+                <option name="rating" value="UNRATED" />
+                <option name="status" value="SUCCESS" />
+              </Turn>
+            </list>
+          </option>
+          <option name="updateTime" value="1730283492597" />
+        </Conversation>
+        <Conversation>
           <option name="createTime" value="1729956124722" />
           <option name="id" value="3225ca3102b345c791889356e45c7422" />
           <option name="title" value="&#10;### Error querying database.  Cause: java.sql.SQL" />

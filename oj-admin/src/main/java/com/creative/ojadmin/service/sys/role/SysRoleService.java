@@ -19,6 +19,8 @@ public interface SysRoleService extends IService<SysRoleDO> {
 
     PageResult<RoleVO> pageQueryRole(QueryRoleParam param);
 
+    List<RoleVO> getAllRoles();
+
     void changeRoleStatus(ChangeRoleStatusParam param);
 
     void deleteRole(DeleteRoleParam param);

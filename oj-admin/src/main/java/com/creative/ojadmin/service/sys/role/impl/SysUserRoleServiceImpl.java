@@ -3,12 +3,14 @@ package com.creative.ojadmin.service.sys.role.impl;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.creative.ojadmin.controller.sys.role.param.GetRoleParam;
+import com.creative.ojadmin.controller.sys.role.param.UpdateUserRoleParam;
 import com.creative.ojadmin.domain.SysUserRoleDO;
 import com.creative.ojadmin.service.sys.role.SysUserRoleService;
 import com.creative.ojadmin.mapper.SysUserRoleMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -35,6 +37,21 @@ public class SysUserRoleServiceImpl extends ServiceImpl<SysUserRoleMapper, SysUs
     @Override
     public void deleteByRoleId(Long roleId) {
         baseMapper.delete(new LambdaQueryWrapper<SysUserRoleDO>().eq(SysUserRoleDO::getRoleId, roleId));
+    }
+
+    @Override
+    public void updateUserRole(UpdateUserRoleParam param) {
+        baseMapper.delete(new LambdaQueryWrapper<SysUserRoleDO>()
+                .eq(SysUserRoleDO::getUserId, param.getUserId())
+        );
+        for (Long roleId : param.getRoleIds()) {
+            SysUserRoleDO sysUserRoleDO = new SysUserRoleDO();
+            sysUserRoleDO.setUserId(param.getUserId());
+            sysUserRoleDO.setRoleId(roleId);
+            sysUserRoleDO.setGmtCreate(LocalDateTime.now());
+            sysUserRoleDO.setGmtModified(LocalDateTime.now());
+            save(sysUserRoleDO);
+        }
     }
 }
 

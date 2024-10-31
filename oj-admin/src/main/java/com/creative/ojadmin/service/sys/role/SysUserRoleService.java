@@ -1,6 +1,7 @@
 package com.creative.ojadmin.service.sys.role;
 
 import com.creative.ojadmin.controller.sys.role.param.GetRoleParam;
+import com.creative.ojadmin.controller.sys.role.param.UpdateUserRoleParam;
 import com.creative.ojadmin.domain.SysUserRoleDO;
 import com.baomidou.mybatisplus.extension.service.IService;
 
@@ -16,5 +17,7 @@ public interface SysUserRoleService extends IService<SysUserRoleDO> {
     List<Long> getRoleIdsByUserId(GetRoleParam param);
 
     void deleteByRoleId(Long roleId);
+
+    void updateUserRole(UpdateUserRoleParam param);
 
 }

@@ -1,5 +1,10 @@
 package com.creative.ojadmin.service.sys.user;
 
+import com.creative.ojadmin.common.pojo.PageResult;
+import com.creative.ojadmin.controller.sys.user.param.QueryUserParam;
+import com.creative.ojadmin.controller.sys.user.param.ResetUserPasswordParam;
+import com.creative.ojadmin.controller.sys.user.param.UpdateUserBaseInfoParam;
+import com.creative.ojadmin.controller.sys.user.vo.UserVO;
 import com.creative.ojadmin.domain.SysUserDO;
 import com.baomidou.mybatisplus.extension.service.IService;
 
@@ -16,5 +21,11 @@ public interface SysUserService extends IService<SysUserDO> {
      * @return /
      */
     SysUserDO getUserByUserName(String username);
+
+    PageResult<UserVO> pageQueryUser(QueryUserParam param);
+
+    void resetPassword(ResetUserPasswordParam param);
+
+    void updateUserBaseInfo(UpdateUserBaseInfoParam param);
 
 }

@@ -1,6 +1,7 @@
 package com.example.oj.service.impl;
 
 import cn.dev33.satoken.stp.StpUtil;
+import cn.hutool.http.HttpRequest;
 import cn.hutool.http.HttpUtil;
 import cn.hutool.json.JSONArray;
 import cn.hutool.json.JSONObject;
@@ -20,10 +21,12 @@ import com.example.oj.param.submission.SubmitCodeParam;
 import com.example.oj.service.SysSubmissionService;
 import com.example.oj.vo.submission.SubmissionVO;
 import com.example.oj.vo.submission.SubmitCodeVO;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.List;
@@ -34,32 +37,29 @@ import java.util.stream.Collectors;
  * @description 针对表【sys_submission】的数据库操作Service实现
  * @createDate 2024-06-26 13:57:45
  */
+@RequiredArgsConstructor
 @Slf4j
 @Service
 public class SysSubmissionServiceImpl extends ServiceImpl<SysSubmissionMapper, SysSubmission>
         implements SysSubmissionService {
 
     // 沙箱接口地址
-    private static final String BASE_URL = "http://154.9.253.106:2358/submissions/batch";
+    private static final String BASE_URL = "https://judge0-ce.p.rapidapi.com/submissions/batch";
+//    private static final String BASE_URL = "http://154.9.253.106:2358/submissions/batch";
 //    private static final String BASE_URL = "http://judge.api.hlkjstudio.top/run";
 
-    @Autowired
-    private SysUserMapper sysUserMapper;
-    @Autowired
-    private SysProblemMapper sysProblemMapper;
-    @Autowired
-    private SysProblemTestMapper sysProblemTestMapper;
-    @Autowired
-    private SysUserInfoServiceImpl sysUserInfoServiceImpl;
-    @Autowired
-    private SysUserInfoMapper sysUserInfoMapper;
+    private final SysUserMapper sysUserMapper;
+    private final SysProblemMapper sysProblemMapper;
+    private final SysProblemTestMapper sysProblemTestMapper;
+    private final SysUserInfoServiceImpl sysUserInfoServiceImpl;
+    private final SysUserInfoMapper sysUserInfoMapper;
 
     @Override
     public SubmitCodeVO submitCode(SubmitCodeParam param) {
         SysSubmission sysSubmission = new SysSubmission();
         sysSubmission.setCode(param.getCode());
         sysSubmission.setProblemId(param.getProblemId());
-        sysSubmission.setSubmitTime(LocalDateTime.now());
+        sysSubmission.setSubmitTime(LocalDate.now());
         sysSubmission.setGmtCreate(LocalDateTime.now());
         sysSubmission.setGmtModified(LocalDateTime.now());
         sysSubmission.setLanguageId(param.getLanguage());
@@ -104,7 +104,7 @@ public class SysSubmissionServiceImpl extends ServiceImpl<SysSubmissionMapper, S
                 new LambdaQueryWrapper<SysSubmission>()
                         .in(SysSubmission::getProblemId, problemIds)
                         .in(SysSubmission::getUserId, userInfoIds)
-                        .orderByDesc(SysSubmission::getSubmitTime)
+                        .orderByDesc(SysSubmission::getGmtCreate)
         );
         return getSubmissionVOPageResult(page);
     }
@@ -129,7 +129,7 @@ public class SysSubmissionServiceImpl extends ServiceImpl<SysSubmissionMapper, S
                 new LambdaQueryWrapper<SysSubmission>()
                         .eq(SysSubmission::getProblemId, param.getSearchProblemValue())
                         .eq(SysSubmission::getUserId, StpUtil.getLoginIdAsLong())
-                        .orderByDesc(SysSubmission::getSubmitTime)
+                        .orderByDesc(SysSubmission::getGmtCreate)
         );
         return getSubmissionVOPageResult(page);
     }
@@ -140,7 +140,7 @@ public class SysSubmissionServiceImpl extends ServiceImpl<SysSubmissionMapper, S
                 new Page<>(param.getPage(), param.getPageSize()),
                 new LambdaQueryWrapper<SysSubmission>()
                         .eq(SysSubmission::getUserId, StpUtil.getLoginIdAsLong())
-                        .orderByDesc(SysSubmission::getSubmitTime)
+                        .orderByDesc(SysSubmission::getGmtCreate)
         );
         return getSubmissionVOPageResult(page);
     }
@@ -153,7 +153,7 @@ public class SysSubmissionServiceImpl extends ServiceImpl<SysSubmissionMapper, S
                 new LambdaQueryWrapper<SysSubmission>()
                         .in(SysSubmission::getProblemId, problemIds)
                         .eq(SysSubmission::getUserId, param.getSearchUserId())
-                        .orderByDesc(SysSubmission::getSubmitTime)
+                        .orderByDesc(SysSubmission::getGmtCreate)
         );
         return getSubmissionVOPageResult(page);
     }
@@ -168,7 +168,7 @@ public class SysSubmissionServiceImpl extends ServiceImpl<SysSubmissionMapper, S
             submissionVO.setCustomId(sysProblemMapper.selectById(item.getProblemId()).getCustomId());
             submissionVO.setSubmissionId(item.getId());
             submissionVO.setStatus(item.getStatus());
-            submissionVO.setSubmitTime(item.getSubmitTime());
+            submissionVO.setSubmitTime(item.getGmtCreate());
             submissionVO.setRunTime(item.getRunTime());
             submissionVO.setRunMemory(item.getRunMemory());
             submissionVO.setUserId(item.getUserId());
@@ -231,7 +231,11 @@ public class SysSubmissionServiceImpl extends ServiceImpl<SysSubmissionMapper, S
     private void getSubmitStatus(String submitToken, SysSubmission sysSubmission) {
         log.info("开始查询提交结果，测评id为：{}", sysSubmission.getId());
         while (true) {
-            String submitResult = HttpUtil.get(BASE_URL + "?tokens=" + submitToken);
+            String submitResult = HttpRequest.get(BASE_URL+"?tokens=" + submitToken)
+                    .header("x-rapidapi-key", "37b778cb5emsh40cf2115eb1e2a7p1e8814jsnc44a1bf2a610")
+                    .header("x-rapidapi-host", "judge0-ce.p.rapidapi.com")
+                    .execute().body();
+//            String submitResult = HttpUtil.get(BASE_URL + "?tokens=" + submitToken);
             log.info("查询提交结果：{}", submitResult);
             JSONObject submitResultJson = new JSONObject(submitResult);
             if (submitResultJson.getStr("error") != null) {
@@ -332,7 +336,13 @@ public class SysSubmissionServiceImpl extends ServiceImpl<SysSubmissionMapper, S
 
     private String getSubmitToken(HashMap<String, Object> params) {
         log.info("提交参数：{}", params);
-        String post = HttpUtil.post(BASE_URL, JSONUtil.toJsonStr(params));
+        String post = HttpRequest.post(BASE_URL)
+                .header("x-rapidapi-key", "37b778cb5emsh40cf2115eb1e2a7p1e8814jsnc44a1bf2a610")
+                .header("x-rapidapi-host", "judge0-ce.p.rapidapi.com")
+                .header("Content-Type", "application/json")
+                .body(JSONUtil.toJsonStr(params))
+                .execute().body();
+//        String post = HttpUtil.post(BASE_URL, JSONUtil.toJsonStr(params));
         log.info("提交结果：{}", post);
         JSONArray jsonArray = JSONUtil.parseArray(post);
         StringBuilder tokens = new StringBuilder();

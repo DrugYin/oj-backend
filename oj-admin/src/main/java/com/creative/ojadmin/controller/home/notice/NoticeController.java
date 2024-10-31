@@ -1,5 +1,6 @@
 package com.creative.ojadmin.controller.home.notice;
 
+import cn.dev33.satoken.annotation.SaCheckRole;
 import com.creative.ojadmin.common.pojo.ResponseResult;
 import com.creative.ojadmin.controller.home.notice.param.CreateNoticeParam;
 import com.creative.ojadmin.controller.home.notice.param.DeleteNoticeParam;
@@ -23,18 +24,21 @@ public class NoticeController {
 
     private final SysNoticeService sysNoticeService;
 
+    @SaCheckRole("admin")
     @PostMapping("/delete")
     public ResponseResult<?> deleteNotice(@RequestBody DeleteNoticeParam param) {
         sysNoticeService.deleteNoticeById(param);
         return ResponseResult.success("删除成功");
     }
 
+    @SaCheckRole("admin")
     @PostMapping("/create")
     public ResponseResult<?> createNotice(@RequestBody CreateNoticeParam param) {
         sysNoticeService.createNotice(param);
         return ResponseResult.success("创建成功");
     }
 
+    @SaCheckRole("admin")
     @PostMapping("/update")
     public ResponseResult<?> updateNotice(@RequestBody UpdateNoticeParam param) {
         sysNoticeService.updateNotice(param);

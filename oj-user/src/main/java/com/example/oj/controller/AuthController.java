@@ -5,6 +5,7 @@ import com.example.oj.common.model.Result;
 import com.example.oj.param.notice.QueryPageParam;
 import com.example.oj.param.user.LoginParam;
 import com.example.oj.param.user.RegisterParam;
+import com.example.oj.param.user.ResetPasswordParam;
 import com.example.oj.param.user.UserInfoParam;
 import com.example.oj.service.SysUserService;
 import com.example.oj.service.impl.SysUserInfoServiceImpl;
@@ -48,6 +49,12 @@ public class AuthController {
     @PostMapping("/login")
     public Result<?> login(@Valid @RequestBody LoginParam param) throws Exception {
         return Result.success(sysUserService.login(param));
+    }
+
+    @PostMapping("/resetPassword")
+    public Result<?> resetPassword(@Valid @RequestBody ResetPasswordParam param) throws Exception {
+        sysUserService.resetPassword(param);
+        return Result.success("Ok");
     }
 
     /**

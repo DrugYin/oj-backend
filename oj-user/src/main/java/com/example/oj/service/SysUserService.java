@@ -6,6 +6,7 @@ import com.example.oj.domain.SysUser;
 import com.example.oj.param.notice.QueryPageParam;
 import com.example.oj.param.user.LoginParam;
 import com.example.oj.param.user.RegisterParam;
+import com.example.oj.param.user.ResetPasswordParam;
 import com.example.oj.vo.user.LoginUserVO;
 import com.example.oj.vo.user.LoginVO;
 import com.example.oj.vo.user.RankVO;
@@ -36,6 +37,8 @@ public interface SysUserService extends IService<SysUser> {
     LoginVO login(LoginParam param) throws Exception;
 
     LoginUserVO getUserInfo();
+
+    void resetPassword(ResetPasswordParam param) throws Exception;
 
     void updateUserSubmitInfo(int status);
 

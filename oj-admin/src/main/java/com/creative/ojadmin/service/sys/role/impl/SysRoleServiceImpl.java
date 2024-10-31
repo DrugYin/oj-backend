@@ -34,6 +34,9 @@ public class SysRoleServiceImpl extends ServiceImpl<SysRoleMapper, SysRoleDO>
 
     @Override
     public List<SysRoleDO> getRoleListByRoleIds(List<Long> roleIds) {
+        if (roleIds == null || roleIds.isEmpty()) {
+            return null;
+        }
         return baseMapper.selectList(new LambdaQueryWrapper<SysRoleDO>()
                 .in(SysRoleDO::getId, roleIds)
                 .eq(SysRoleDO::getState, 1)
@@ -59,6 +62,22 @@ public class SysRoleServiceImpl extends ServiceImpl<SysRoleMapper, SysRoleDO>
             return roleVO;
         }).toList();
         return new PageResult<>(collect.size(), collect);
+    }
+
+    @Override
+    public List<RoleVO> getAllRoles() {
+        List<SysRoleDO> sysRoleDOS = baseMapper.selectList(new LambdaQueryWrapper<SysRoleDO>()
+                .eq(SysRoleDO::getState, 1)
+                .orderByAsc(SysRoleDO::getId)
+        );
+        return sysRoleDOS.stream().map(item -> {
+            RoleVO roleVO = new RoleVO();
+            roleVO.setName(item.getName());
+            roleVO.setCode(item.getCode());
+            roleVO.setId(item.getId());
+            roleVO.setStatus(item.getState() == 1);
+            return roleVO;
+        }).toList();
     }
 
     @Override

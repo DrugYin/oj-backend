@@ -7,6 +7,7 @@ import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
 
 import java.io.Serializable;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 /**
@@ -43,7 +44,7 @@ public class SysSubmission implements Serializable {
      * 提交时间
      */
     @TableField(value = "submit_time")
-    private LocalDateTime submitTime;
+    private LocalDate submitTime;
 
     /**
      * 运行时间(ms)
