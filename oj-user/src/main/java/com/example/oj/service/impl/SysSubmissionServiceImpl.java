@@ -68,117 +68,18 @@ public class SysSubmissionServiceImpl extends ServiceImpl<SysSubmissionMapper, S
         sysSubmission.setStatus(0L);
         // 存储测评记录
         save(sysSubmission);
-
-
         // 测评，创建一个线程，并测评
         Thread thread = new Thread(() -> startJudge(sysSubmission));
         // 启动线程
         thread.start();
-
         SubmitCodeVO submitCodeVO = new SubmitCodeVO();
         submitCodeVO.setSubmissionId(sysSubmission.getId());
         return submitCodeVO;
     }
 
-    @Override
-    public PageResult<SubmissionVO> pageQuery(QueryPageParam param) {
-
-        List<Long> userIds = sysUserMapper.selectList(new LambdaQueryWrapper<SysUser>()
-                .like(SysUser::getUsername, "%" + param.getSearchUserValue().replace("_", "\\_").replace("%", "\\%") + "%")
-                .select(SysUser::getId)).stream().map(SysUser::getId).collect(Collectors.toList());
-
-        List<Long> userInfoIds = sysUserInfoMapper.selectList(new LambdaQueryWrapper<SysUserInfo>()
-                .like(SysUserInfo::getUserName, "%" + param.getSearchUserValue().replace("_", "\\_").replace("%", "\\%") + "%")
-                .select(SysUserInfo::getId)).stream().map(SysUserInfo::getId).collect(Collectors.toList());
-
-        if (userInfoIds.isEmpty()) userInfoIds.add(0L);
-        if (userIds.isEmpty()) userIds.add(0L);
-
-        System.out.println("userIds: " + userIds);
-        System.out.println("userInfoIds: " + userInfoIds);
-
-        List<Long> problemIds = getProblemIdsBySearchValue(param);
-
-        Page<SysSubmission> page = page(
-                new Page<>(param.getPage(), param.getPageSize()),
-                new LambdaQueryWrapper<SysSubmission>()
-                        .in(SysSubmission::getProblemId, problemIds)
-                        .in(SysSubmission::getUserId, userInfoIds)
-                        .orderByDesc(SysSubmission::getGmtCreate)
-        );
-        return getSubmissionVOPageResult(page);
-    }
-
-    private List<Long> getProblemIdsBySearchValue(QueryPageParam param) {
-        List<Long> problemIds = sysProblemMapper.selectList(new LambdaQueryWrapper<SysProblem>()
-                .like(SysProblem::getTitle, "%" + param.getSearchProblemValue().replace("%", "\\%").replace("_", "\\_") + "%")
-                .or()
-                .like(SysProblem::getCustomId, "%" + param.getSearchProblemValue().replace("%", "\\%").replace("_", "\\_") + "%")
-                .or()
-                .eq(SysProblem::getId, param.getSearchProblemValue())
-                .select(SysProblem::getId)).stream().map(SysProblem::getId).collect(Collectors.toList());
-
-        if (problemIds.isEmpty()) problemIds.add(0L);
-        return problemIds;
-    }
-
-    @Override
-    public PageResult<SubmissionVO> problemSubmitPageQuery(QueryPageParam param) {
-        Page<SysSubmission> page = page(
-                new Page<>(param.getPage(), param.getPageSize()),
-                new LambdaQueryWrapper<SysSubmission>()
-                        .eq(SysSubmission::getProblemId, param.getSearchProblemValue())
-                        .eq(SysSubmission::getUserId, StpUtil.getLoginIdAsLong())
-                        .orderByDesc(SysSubmission::getGmtCreate)
-        );
-        return getSubmissionVOPageResult(page);
-    }
-
-    @Override
-    public PageResult<SubmissionVO> userSubmitPageQuery(QueryPageParam param) {
-        Page<SysSubmission> page = page(
-                new Page<>(param.getPage(), param.getPageSize()),
-                new LambdaQueryWrapper<SysSubmission>()
-                        .eq(SysSubmission::getUserId, StpUtil.getLoginIdAsLong())
-                        .orderByDesc(SysSubmission::getGmtCreate)
-        );
-        return getSubmissionVOPageResult(page);
-    }
-
-    @Override
-    public PageResult<SubmissionVO> getUserSubmitsById(QueryPageParam param) {
-        List<Long> problemIds = getProblemIdsBySearchValue(param);
-        Page<SysSubmission> page = page(
-                new Page<>(param.getPage(), param.getPageSize()),
-                new LambdaQueryWrapper<SysSubmission>()
-                        .in(SysSubmission::getProblemId, problemIds)
-                        .eq(SysSubmission::getUserId, param.getSearchUserId())
-                        .orderByDesc(SysSubmission::getGmtCreate)
-        );
-        return getSubmissionVOPageResult(page);
-    }
-
-    private PageResult<SubmissionVO> getSubmissionVOPageResult(Page<SysSubmission> page) {
-        List<SubmissionVO> collect = page.getRecords().stream().map(item -> {
-            SubmissionVO submissionVO = new SubmissionVO();
-            submissionVO.setId(item.getId());
-            submissionVO.setUsername(sysUserInfoMapper.selectById(item.getUserId()).getUserName());
-            submissionVO.setProblemId(item.getProblemId());
-            submissionVO.setProblemTitle(sysProblemMapper.selectById(item.getProblemId()).getTitle());
-            submissionVO.setCustomId(sysProblemMapper.selectById(item.getProblemId()).getCustomId());
-            submissionVO.setSubmissionId(item.getId());
-            submissionVO.setStatus(item.getStatus());
-            submissionVO.setSubmitTime(item.getGmtCreate());
-            submissionVO.setRunTime(item.getRunTime());
-            submissionVO.setRunMemory(item.getRunMemory());
-            submissionVO.setUserId(item.getUserId());
-            submissionVO.setCode(item.getCode());
-            submissionVO.setCaseNumber(item.getCaseNumber());
-            submissionVO.setAcNumber(item.getAcNumber());
-            submissionVO.setLanguageId(item.getLanguageId());
-            return submissionVO;
-        }).collect(Collectors.toList());
-        return new PageResult<>(page.getTotal(), collect);
+    private JSONArray getTestCases(long problemId) {
+        String testCasesJson = sysProblemTestMapper.selectById(problemId).getContent();
+        return JSONUtil.parseArray(testCasesJson);
     }
 
     /**
@@ -187,7 +88,6 @@ public class SysSubmissionServiceImpl extends ServiceImpl<SysSubmissionMapper, S
      * @param sysSubmission /
      */
     private void startJudge(SysSubmission sysSubmission) {
-        log.info("开始测评了，测评id为：{}", sysSubmission.getId());
         HashMap<String, Object> params = new HashMap<>();
         // 得到测试数据
         JSONArray jsonArray = getTestCases(sysSubmission.getProblemId());
@@ -209,6 +109,7 @@ public class SysSubmissionServiceImpl extends ServiceImpl<SysSubmissionMapper, S
             param.put("cpu_time_limit", runTimeLimit * 1.0 / 1000);
             submissions.add(param);
         }
+        // 更新测评记录
         update(new LambdaUpdateWrapper<SysSubmission>()
                 .eq(SysSubmission::getId, sysSubmission.getId())
                 .set(SysSubmission::getCaseNumber, jsonArray.size())
@@ -216,16 +117,11 @@ public class SysSubmissionServiceImpl extends ServiceImpl<SysSubmissionMapper, S
         params.put("submissions", submissions);
         // 记录当前这个代码的执行结果
         int result = 0;
-        // 调用沙箱接口，获取测评结果
+        // 调用沙箱接口，获取提交评测token
         String submitTokens = getSubmitToken(params);
-        log.info("提交tokens：{}", submitTokens);
+        // 根据提交token，查询评测结果
         Thread thread = new Thread(() -> getSubmitStatus(submitTokens, sysSubmission));
         thread.start();
-    }
-
-    private JSONArray getTestCases(long problemId) {
-        String testCasesJson = sysProblemTestMapper.selectById(problemId).getContent();
-        return JSONUtil.parseArray(testCasesJson);
     }
 
     private void getSubmitStatus(String submitToken, SysSubmission sysSubmission) {
@@ -355,6 +251,106 @@ public class SysSubmissionServiceImpl extends ServiceImpl<SysSubmissionMapper, S
         }
         return tokens.toString();
     }
+
+    @Override
+    public PageResult<SubmissionVO> pageQuery(QueryPageParam param) {
+
+        List<Long> userIds = sysUserMapper.selectList(new LambdaQueryWrapper<SysUser>()
+                .like(SysUser::getUsername, "%" + param.getSearchUserValue().replace("_", "\\_").replace("%", "\\%") + "%")
+                .select(SysUser::getId)).stream().map(SysUser::getId).collect(Collectors.toList());
+
+        List<Long> userInfoIds = sysUserInfoMapper.selectList(new LambdaQueryWrapper<SysUserInfo>()
+                .like(SysUserInfo::getUserName, "%" + param.getSearchUserValue().replace("_", "\\_").replace("%", "\\%") + "%")
+                .select(SysUserInfo::getId)).stream().map(SysUserInfo::getId).collect(Collectors.toList());
+
+        if (userInfoIds.isEmpty()) userInfoIds.add(0L);
+        if (userIds.isEmpty()) userIds.add(0L);
+
+        List<Long> problemIds = getProblemIdsBySearchValue(param);
+
+        Page<SysSubmission> page = page(
+                new Page<>(param.getPage(), param.getPageSize()),
+                new LambdaQueryWrapper<SysSubmission>()
+                        .in(SysSubmission::getProblemId, problemIds)
+                        .in(SysSubmission::getUserId, userInfoIds)
+                        .orderByDesc(SysSubmission::getGmtCreate)
+        );
+        return getSubmissionVOPageResult(page);
+    }
+
+    private List<Long> getProblemIdsBySearchValue(QueryPageParam param) {
+        List<Long> problemIds = sysProblemMapper.selectList(new LambdaQueryWrapper<SysProblem>()
+                .like(SysProblem::getTitle, "%" + param.getSearchProblemValue().replace("%", "\\%").replace("_", "\\_") + "%")
+                .or()
+                .like(SysProblem::getCustomId, "%" + param.getSearchProblemValue().replace("%", "\\%").replace("_", "\\_") + "%")
+                .or()
+                .eq(SysProblem::getId, param.getSearchProblemValue())
+                .select(SysProblem::getId)).stream().map(SysProblem::getId).collect(Collectors.toList());
+
+        if (problemIds.isEmpty()) problemIds.add(0L);
+        return problemIds;
+    }
+
+    @Override
+    public PageResult<SubmissionVO> problemSubmitPageQuery(QueryPageParam param) {
+        Page<SysSubmission> page = page(
+                new Page<>(param.getPage(), param.getPageSize()),
+                new LambdaQueryWrapper<SysSubmission>()
+                        .eq(SysSubmission::getProblemId, param.getSearchProblemValue())
+                        .eq(SysSubmission::getUserId, StpUtil.getLoginIdAsLong())
+                        .orderByDesc(SysSubmission::getGmtCreate)
+        );
+        return getSubmissionVOPageResult(page);
+    }
+
+    @Override
+    public PageResult<SubmissionVO> userSubmitPageQuery(QueryPageParam param) {
+        Page<SysSubmission> page = page(
+                new Page<>(param.getPage(), param.getPageSize()),
+                new LambdaQueryWrapper<SysSubmission>()
+                        .eq(SysSubmission::getUserId, StpUtil.getLoginIdAsLong())
+                        .orderByDesc(SysSubmission::getGmtCreate)
+        );
+        return getSubmissionVOPageResult(page);
+    }
+
+    @Override
+    public PageResult<SubmissionVO> getUserSubmitsById(QueryPageParam param) {
+        List<Long> problemIds = getProblemIdsBySearchValue(param);
+        Page<SysSubmission> page = page(
+                new Page<>(param.getPage(), param.getPageSize()),
+                new LambdaQueryWrapper<SysSubmission>()
+                        .in(SysSubmission::getProblemId, problemIds)
+                        .eq(SysSubmission::getUserId, param.getSearchUserId())
+                        .orderByDesc(SysSubmission::getGmtCreate)
+        );
+        return getSubmissionVOPageResult(page);
+    }
+
+    private PageResult<SubmissionVO> getSubmissionVOPageResult(Page<SysSubmission> page) {
+//        long loginId = StpUtil.getLoginIdAsLong();
+        List<SubmissionVO> collect = page.getRecords().stream().map(item -> {
+            SubmissionVO submissionVO = new SubmissionVO();
+            submissionVO.setId(item.getId());
+            submissionVO.setUsername(sysUserInfoMapper.selectById(item.getUserId()).getUserName());
+            submissionVO.setProblemId(item.getProblemId());
+            submissionVO.setProblemTitle(sysProblemMapper.selectById(item.getProblemId()).getTitle());
+            submissionVO.setCustomId(sysProblemMapper.selectById(item.getProblemId()).getCustomId());
+            submissionVO.setSubmissionId(item.getId());
+            submissionVO.setStatus(item.getStatus());
+            submissionVO.setSubmitTime(item.getGmtCreate());
+            submissionVO.setRunTime(item.getRunTime());
+            submissionVO.setRunMemory(item.getRunMemory());
+            submissionVO.setUserId(item.getUserId());
+            submissionVO.setCode(item.getCode());
+            submissionVO.setCaseNumber(item.getCaseNumber());
+            submissionVO.setAcNumber(item.getAcNumber());
+            submissionVO.setLanguageId(item.getLanguageId());
+            return submissionVO;
+        }).collect(Collectors.toList());
+        return new PageResult<>(page.getTotal(), collect);
+    }
+
 }
 
 

@@ -70,19 +70,21 @@ public class SysCarouselServiceImpl extends ServiceImpl<SysCarouselMapper, SysCa
 
     @Override
     public void uploadCarousel(UploadCarouselParam param) {
+        // 获取图片对象
         MultipartFile file = param.getImage();
+        // 判断图片是否为空
         if (file == null) {
             throw new ServiceException(GlobalErrorCodeEnum.FILE_EMPTY);
         }
-        if (file.isEmpty()) {
-            throw new ServiceException(GlobalErrorCodeEnum.FILE_EMPTY);
-        }
         try {
+            // 根据时间和随机id生成图片名
             Date date = new Date();
             String dateForm = new SimpleDateFormat("yyyy-MM-dd").format(date);
             String imgFormat = file.getOriginalFilename().substring(file.getOriginalFilename().lastIndexOf("."));
             String imgName = UUID.randomUUID().toString() + dateForm + imgFormat;
+            // 保存图片
             file.transferTo(new File(IMAGE_PATH + "\\" + imgName));
+            // 将数据保存至数据库
             SysCarouselDO carouselDO = new SysCarouselDO();
             carouselDO.setTitle(param.getTitle());
             carouselDO.setImgurl("\\api/image/carousel/" + imgName);

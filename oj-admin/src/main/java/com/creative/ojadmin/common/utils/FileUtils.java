@@ -1,6 +1,7 @@
 package com.creative.ojadmin.common.utils;
 
 import cn.hutool.core.codec.Base64Encoder;
+import cn.hutool.core.util.ZipUtil;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
@@ -29,11 +30,8 @@ public class FileUtils {
             throw new IllegalArgumentException("文件名不能为空");
         }
 
-        // 创建目标文件对象
-        File destFile = new File(localPath);
-
         // 将文件内容写入目标文件
-        multipartFile.transferTo(destFile);
+        multipartFile.transferTo(new File(localPath + fileName));
     }
 
     /**
@@ -77,6 +75,11 @@ public class FileUtils {
         return Base64Encoder.encode(data);
     }
 
+    /**
+     * 获取图片后缀
+     * @param multipartFile multipartFile对象
+     * @return 图片后缀
+     */
     public static String getImageExtension(MultipartFile multipartFile) {
         // 获取上传的文件名
         String fileName = multipartFile.getOriginalFilename();
@@ -92,5 +95,9 @@ public class FileUtils {
 
         // 提取出原本的后缀
         return fileName.substring(dotIndex);
+    }
+
+    public static void unzip(String zipFilePath, String destDirPath) {
+        ZipUtil.unzip(zipFilePath, destDirPath);
     }
 }

@@ -33,6 +33,7 @@ public class AuthServiceImpl implements IAuthService {
      */
     @Override
     public LoginResultVO passwordLogin(PasswordLoginParam param) {
+        // 根据账号获取用户数据库信息
         SysUserDO dbUser = sysUserService.getUserByUserName(param.getAccount());
         if (dbUser == null) {
             // 用户不存在
@@ -44,13 +45,14 @@ public class AuthServiceImpl implements IAuthService {
             // 密码错误
             throw new ServiceException(GlobalErrorCodeEnum.LOGIN_PASSWORD_WRONG);
         }
+        // 执行登录
         StpUtil.login(dbUser.getId());
-//        StpUtil.getRoleList();
+        // 判断是否拥有管理员权限
         if (!StpUtil.hasRole("admin")) {
             StpUtil.logout(dbUser.getId());
             throw new ServiceException(GlobalErrorCodeEnum.LOGIN_USER_NOT_AUTHORIZED);
         }
-        // 执行登录
+        // 获取登录信息并封装
         LoginResultVO loginResultVO = new LoginResultVO();
         loginResultVO.setToken(StpUtil.getTokenValue());
         loginResultVO.setAccount(dbUser.getUsername());
